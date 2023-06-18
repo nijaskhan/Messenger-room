@@ -20,6 +20,10 @@ const io = new Server(server, {
 io.on('connection', (socket)=>{
     console.log(`socket connected to ${socket.id}`);
 
+    socket.on('join_room', (data)=>{
+        console.log(data, "joined the room");
+    })
+
     socket.on('disconnect', ()=>{
         console.log('socket disconnected');
     })
