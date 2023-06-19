@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { DotSpinner } from '@uiball/loaders';
 
 const Loading = () => {
     return (
@@ -8,9 +9,13 @@ const Loading = () => {
             alignItems: 'center',
             height: '100vh',
         }}>
-            <img src="/images/Wedges-3s-200px.svg" alt="Loading..." />
+            <DotSpinner
+                size={40}
+                speed={0.9}
+                color="black"
+            />
         </div>
     )
 }
 
-export default Loading
+export default Loading;

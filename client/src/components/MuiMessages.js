@@ -56,6 +56,30 @@ const MuiMessages = () => {
                                 </Typography>
                             </Grid>
                         </Grid>
+                        <Grid container columnGap={1} py={0.5}>
+                            <Grid item>
+                                <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, bgcolor: '#cc7a00' }}>
+                                    N
+                                </Avatar>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#737373', borderRadius: '1.5rem', padding: '0.5rem' }}>
+                                    message1message1message1message1message1message1message1message1
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                        <Grid container columnGap={1} py={0.5}>
+                            <Grid item>
+                                <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, bgcolor: '#cc7a00' }}>
+                                    N
+                                </Avatar>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#737373', borderRadius: '1.5rem', padding: '0.5rem' }}>
+                                    message1message1message1message1message1message1message1message1
+                                </Typography>
+                            </Grid>
+                        </Grid>
 
                         {/* reply messages */}
                         <Grid container columnGap={1} py={1.5} px={0.5}>

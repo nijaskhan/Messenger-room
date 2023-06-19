@@ -2,6 +2,7 @@ import { Box, Container, Typography, Grid } from '@mui/material';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import MuiMessages from './MuiMessages';
+import './styles/chat.css';
 
 const MuiChat = () => {
     return (
@@ -45,7 +46,7 @@ const MuiChat = () => {
                             borderBottom: '1px solid #a6a6a6'
                         }} gutterBottom>Room Code : pem24578</Typography>
                         <Grid container spacing={0} py={3} px={2}>
-                            {/* <MuiMessages /> */}
+                            <MuiMessages />
                         </Grid>
                     </Grid>
                 </Grid>
