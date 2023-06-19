@@ -22,16 +22,17 @@ const MuiChat = () => {
                 display: 'flex',
                 flexDirection: 'column'
             }}>
-                <Grid container spacing={2} justifyContent={'center'} height={'90vh'} sx={{
+                <Grid container spacing={2} justifyContent={'center'} height={'87vh'} sx={{
                     border: '1px solid black',
                     borderRadius: '2rem',
                     padding: '2rem',
-                    backgroundColor: 'white',
+                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    // backgroundColor: 'white',
                     boxShadow: "1px 0px 15px ##1a1a1af"
                 }}>
 
                     {/* CHAT-SIDEBAR */}
-                    <Grid item md={4} lg={4} height={'82vh'} sx={{
+                    <Grid item md={4} lg={4} height={'79vh'} sx={{
                         backgroundColor: '#e5e5e5',
                         display: 'flex',
                         borderRadius: '1rem'
