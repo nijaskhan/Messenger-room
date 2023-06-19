@@ -12,7 +12,7 @@ const theme = createTheme({
       main: '#ffffff'
     }
   }
-})
+});
 
 const App = () => {
   return (

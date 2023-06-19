@@ -1,6 +1,7 @@
 import { Box, Container, Typography, Grid } from '@mui/material';
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import MuiMessages from './MuiMessages';
 
 const MuiChat = () => {
     return (
@@ -29,7 +30,7 @@ const MuiChat = () => {
                 }}>
 
                     {/* CHAT-SIDEBAR */}
-                    <Grid item md={6} lg={4} height={'83vh'} sx={{
+                    <Grid item md={4} lg={4} height={'82vh'} sx={{
                         backgroundColor: '#e5e5e5',
                         display: 'flex',
                         borderRadius: '1rem'
@@ -38,12 +39,12 @@ const MuiChat = () => {
                     </Grid>
 
                     {/* CHAT-BODY */}
-                    <Grid item md={6} lg={8} >
+                    <Grid item md={8} lg={8} >
                         <Typography variant="h5" color="initial" sx={{
                             fontWeight: 'bold'
                         }} gutterBottom>Room Code : pem24578</Typography>
                         <Grid container spacing={0} py={3} px={2}>
-                            <Typography variant="body1" color="initial">message1</Typography>
+                            <MuiMessages />
                         </Grid>
                     </Grid>
                 </Grid>
