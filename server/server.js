@@ -20,13 +20,14 @@ const io = new Server(server, {
 io.on('connection', (socket)=>{
     console.log(`socket connected to ${socket.id}`);
 
-    socket.on('join_room', (data)=>{
-        console.log(data, "joined the room");
-    })
+    socket.on('join_room', ({roomCode, username})=>{
+        console.log(roomCode, "joined the room");
+        console.log(username, "username");
+    });
 
     socket.on('disconnect', ()=>{
         console.log('socket disconnected');
-    })
+    });
 });
 
 server.listen(PORT, ()=>{

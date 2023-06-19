@@ -45,7 +45,7 @@ const MuiChat = () => {
                             borderBottom: '1px solid #a6a6a6'
                         }} gutterBottom>Room Code : pem24578</Typography>
                         <Grid container spacing={0} py={3} px={2}>
-                            <MuiMessages />
+                            {/* <MuiMessages /> */}
                         </Grid>
                     </Grid>
                 </Grid>
@@ -54,4 +54,4 @@ const MuiChat = () => {
     )
 }
 
-export default MuiChat
+export default MuiChat;

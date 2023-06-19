@@ -1,10 +1,12 @@
 import { Box, Typography, TextField, Button } from '@mui/material';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import { withStyles } from '@mui/styles';
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from 'react-helmet';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../store/AuthContext';
 
 const CustomTextField = withStyles({
     root: {
@@ -21,16 +23,20 @@ const CustomTextField = withStyles({
 })(TextField);
 
 const MuiJoinRoom = ({ socket }) => {
-    const [username, setUsername] = useState("");
-    const [roomCode, setRoomCode] = useState("");
+    const {username, roomCode, setUsername, setRoomCode} = useContext(AuthContext);
+    const navigate = useNavigate()
 
     const handleJoinRoom = () => {
-        if(username.length<=0 || roomCode.length<=0){
+        if (username.length <= 0 || roomCode.length <= 0) {
             toast.error("please fill the required field");
-        }else{
-            socket.emit('join_room', roomCode);
+        } else {
+            socket.emit('join_room', { roomCode, username });
+            localStorage.setItem('username', username);
+            navigate('/chat');
         }
     }
+
+    // set useEffect for checking the session
 
     return (
         <>
@@ -57,7 +63,7 @@ const MuiJoinRoom = ({ socket }) => {
                     flexDirection="column"
                     padding={'2rem'}
                     alignItems="center"
-                    width={{ xs: '20rem', sm: '15rem', lg:'30rem', md: '25rem' }}
+                    width={{ xs: '20rem', sm: '15rem', lg: '30rem', md: '25rem' }}
                     justifyContent="center"
                     color={'white'}
                     border="1px solid white"

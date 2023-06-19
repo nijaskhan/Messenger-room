@@ -21,12 +21,19 @@ const CustomTextField = withStyles({
     },
 })(TextField);
 
-const MuiMessageInp = () => {
+const MuiMessageInp = ({username, socket }) => {
     const [message, setMessage] = useState("");
     const [showEmoji, setShowEmoji] = useState(false);
 
     const handleEmojiClick = (emojiObject, event) => {
         setMessage(message + emojiObject.emoji);
+    }
+    const handleSendMsg = () => {
+        if(message.length>0){
+            console.log(message);
+            socket.emit("sendMessage", message);
+            setMessage("");
+        }
     }
     return (
         <>
@@ -53,11 +60,14 @@ const MuiMessageInp = () => {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     color='black'
+                    onKeyUp={(e)=> {
+                        if(e.key==="Enter") handleSendMsg();
+                    }}
                     size='small'
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
-                                <IconButton><SendIcon color='primary' /></IconButton>
+                                <IconButton onClick={handleSendMsg}><SendIcon color='primary' /></IconButton>
                             </InputAdornment>
                         ),
                         startAdornment: (
