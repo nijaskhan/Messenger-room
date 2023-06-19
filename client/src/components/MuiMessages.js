@@ -1,4 +1,4 @@
-import { Grid, Typography, Avatar, Box, TextField } from '@mui/material';
+import { Grid, Typography, Avatar, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React from 'react';
 import MuiMessageInp from './MuiMessageInp';
@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
             backgroundColor: '#555'
         },
     }
-}))
+}));
 
 const MuiMessages = () => {
     const classes = useStyles();
