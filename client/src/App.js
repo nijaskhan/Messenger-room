@@ -10,6 +10,9 @@ const theme = createTheme({
   palette: {
     third: {
       main: '#ffffff'
+    },
+    black: {
+      main: '#000000'
     }
   }
 });

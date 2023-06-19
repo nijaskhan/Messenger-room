@@ -41,7 +41,8 @@ const MuiChat = () => {
                     {/* CHAT-BODY */}
                     <Grid item md={8} lg={8} >
                         <Typography variant="h5" color="initial" sx={{
-                            fontWeight: 'bold'
+                            fontWeight: 'bold',
+                            borderBottom: '1px solid #a6a6a6'
                         }} gutterBottom>Room Code : pem24578</Typography>
                         <Grid container spacing={0} py={3} px={2}>
                             <MuiMessages />

@@ -1,74 +1,129 @@
-import { Grid, Typography, Avatar, Stack } from '@mui/material';
+import { Grid, Typography, Avatar, Box, TextField } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import React from 'react';
+import MuiMessageInp from './MuiMessageInp';
+
+const useStyles = makeStyles(() => ({
+    scrollbar: {
+        '&::-webkit-scrollbar': {
+            width: '3px',
+            backgroundColor: '#f5f5f5',
+        },
+        '&::-webkit-scrollbar-thumb': {
+            backgroundColor: '#888',
+            borderRadius: '4px',
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: '#555'
+        },
+    }
+}))
 
 const MuiMessages = () => {
+    const classes = useStyles();
+
     return (
         <>
-            {/* author chat */}
-            <Grid container columnGap={1}>
-                <Avatar variant='circle' alt={'proPic'} sx={{ width: 35, height: 35, bgcolor: '#cc9900' }}>N</Avatar>
-                <Stack direction={'column'} spacing={0.5}>
-                    <Grid item sx={{
-                        backgroundColor: '#737373',
-                        borderRadius: '1.5rem'
-                    }}
-                    >
-                        <Typography
-                            p={1}
-                            variant="body2"
-                            color="white"
-                            sx={{
-                                textAlign: 'center',
-                                maxWidth: '15rem',
-                                wordWrap: 'break-word'
-                            }}
-                        >
-                            message1message1message1message1message1message1message1message1
-                        </Typography>
-                    </Grid>
-                    <Grid item sx={{
-                        backgroundColor: '#737373',
-                        borderRadius: '1.5rem'
-                    }}
-                    >
-                        <Typography
-                            p={1}
-                            variant="body2"
-                            color="white"
-                            sx={{
-                                textAlign: 'center',
-                                maxWidth: '15rem',
-                                wordWrap: 'break-word'
-                            }}
-                        >
-                            message1message1message1message1message1message1message1message1
-                        </Typography>
-                    </Grid>
-                </Stack>
-            </Grid>
+            <Box display="flex" flexDirection="column">
+                <Box display="flex" mb={1}>
+                    {/* message container */}
+                    <Box ml={1} className={classes.scrollbar} sx={{
+                        overflowY: 'scroll',
+                        height: '65vh',
+                    }}>
+                        {/* author messages */}
+                        <Grid container columnGap={1} py={0.5}>
+                            <Grid item>
+                                <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, bgcolor: '#cc7a00' }}>
+                                    N
+                                </Avatar>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#737373', borderRadius: '1.5rem', padding: '0.5rem' }}>
+                                    message1message1message1message1message1message1message1message1
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                        <Grid container columnGap={1} py={0.5}>
+                            <Grid item>
+                                <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, bgcolor: '#cc7a00' }}>
+                                    N
+                                </Avatar>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#737373', borderRadius: '1.5rem', padding: '0.5rem' }}>
+                                    message1message1message1message1message1message1message1message1
+                                </Typography>
+                            </Grid>
+                        </Grid>
 
-            {/* reply chat */}
-            <Grid container columnGap={1} py={2} >
-                <Avatar variant='circle' alt={'proPic'} sx={{ width: 35, height: 35, bgcolor: '#00802b' }}>N</Avatar>
-                <Grid item sx={{
-                    backgroundColor: 'blue',
-                    borderRadius: '1.5rem',
-                }}
-                >
-                    <Typography
-                        p={1}
-                        variant="body2"
-                        color="white"
-                        sx={{
-                            textAlign: 'center',
-                            maxWidth: '15rem',
-                            wordWrap: 'break-word'
-                        }}
-                    >
-                        message1message1message1message1message1message1message1message1
-                    </Typography>
-                </Grid>
-            </Grid>
+                        {/* reply messages */}
+                        <Grid container columnGap={1} py={1.5} px={0.5}>
+                            <Grid item xs={6} ml={'auto'}>
+                                <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#47476b', borderRadius: '1.5rem', padding: '0.5rem' }}>
+                                    message1message1message1message1message1message1message1message1
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, bgcolor: '#00802b' }}>
+                                    G
+                                </Avatar>
+                            </Grid>
+                        </Grid>
+                        <Grid container columnGap={1} py={1.5} px={0.5}>
+                            <Grid item xs={6} ml={'auto'}>
+                                <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#47476b', borderRadius: '1.5rem', padding: '0.5rem' }}>
+                                    message1message1message1message1message1message1message1message1
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, bgcolor: '#00802b' }}>
+                                    G
+                                </Avatar>
+                            </Grid>
+                        </Grid>
+                        <Grid container columnGap={1} py={1.5} px={0.5}>
+                            <Grid item xs={6} ml={'auto'}>
+                                <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#47476b', borderRadius: '1.5rem', padding: '0.5rem' }}>
+                                    message1message1message1message1message1message1message1message1
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, bgcolor: '#00802b' }}>
+                                    G
+                                </Avatar>
+                            </Grid>
+                        </Grid>
+                        <Grid container columnGap={1} py={1.5} px={0.5}>
+                            <Grid item xs={6} ml={'auto'}>
+                                <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#47476b', borderRadius: '1.5rem', padding: '0.5rem' }}>
+                                    message1message1message1message1message1message1message1message1
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, bgcolor: '#00802b' }}>
+                                    G
+                                </Avatar>
+                            </Grid>
+                        </Grid>
+                        <Grid container columnGap={1} py={1.5} px={0.5}>
+                            <Grid item xs={6} ml={'auto'}>
+                                <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#47476b', borderRadius: '1.5rem', padding: '0.5rem' }}>
+                                    message1message1message1message1message1message1message1message1
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, bgcolor: '#00802b' }}>
+                                    G
+                                </Avatar>
+                            </Grid>
+                        </Grid>
+
+                    </Box>
+                </Box>
+                
+                <MuiMessageInp />
+            </Box>
         </>
     )
 }
