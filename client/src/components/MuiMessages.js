@@ -25,7 +25,7 @@ const MuiMessages = ({ socket }) => {
 
     useEffect(() => {
 
-        socket.on("receiveMessage", (messageData)=>{
+        socket.on("receiveMessage", (messageData) => {
             updateMessages(messageData);
         });
 
@@ -34,20 +34,20 @@ const MuiMessages = ({ socket }) => {
             socket.off("receiveMessage");
         };
         // eslint-disable-next-line
-    },[messages]);
+    }, [messages]);
 
     return (
         <>
             <Box display="flex" flexDirection="column">
-                <Box display="flex" mb={1}>
+                <Box display="flex" mb={1} >
                     {/* message container */}
                     <Box ml={1} className={classes.scrollbar} sx={{
                         overflowY: 'scroll',
                         height: '65vh',
-                        width: '65vw',
+                        width: '65vw'
                     }}>
                         {/* author messages */}
-                        {
+                        {messages.length ? (
                             messages.map((messageDet, index) => {
                                 return (
                                     <>
@@ -59,7 +59,7 @@ const MuiMessages = ({ socket }) => {
                                                     </Avatar>
                                                 </Grid>
                                                 <Grid item xs={"auto"}  >
-                                                    <Typography variant="body2" gutterBottom color="white" sx={{  wordWrap: 'break-word', backgroundColor: '#737373', borderRadius: '1.5rem', padding: '0.5rem' }}>
+                                                    <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#737373', borderRadius: '1.5rem', padding: '0.5rem' }}>
                                                         {messageDet.message}
                                                     </Typography>
                                                 </Grid>
@@ -81,12 +81,13 @@ const MuiMessages = ({ socket }) => {
                                     </>
                                 )
                             })
-                        }
-
-
-                        {/* reply messages */}
-
-
+                        ) : (
+                            <>
+                                <Box display={'flex'} justifyContent={'center'}>
+                                    <Typography variant="h3" color="initial">animation here</Typography>
+                                </Box>
+                            </>
+                        )}
                     </Box>
                 </Box>
             </Box>

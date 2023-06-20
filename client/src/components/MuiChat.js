@@ -1,33 +1,28 @@
 import { Box, Container, Typography, Grid } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import MuiMessages from './MuiMessages';
 import './styles/chat.css';
 import MuiMessageInp from './MuiMessageInp';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../store/AuthContext';
 
 const MuiChat = ({socket}) => {
     const navigate = useNavigate();
+    const {roomCode} = useContext(AuthContext);
 
     useEffect(()=>{
         if(!localStorage.getItem('username')){
             navigate('/');
         }
     });
-    
+
     return (
         <>
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>Messenger | Home</title>
             </Helmet>
-            {/* 
-            <AppBar position="static" color="primary">
-                <Toolbar>
-                    <Typography variant="h6" color={'#fffff'} sx={{ fontWeight: 'bolder' }}>Room Messenger</Typography>
-                </Toolbar>
-            </AppBar> 
-            */}
             <Box component={Container} height={'100vh'} justifyContent={'center'} sx={{
                 display: 'flex',
                 flexDirection: 'column'
@@ -55,7 +50,7 @@ const MuiChat = ({socket}) => {
                         <Typography variant="h5" color="initial" sx={{
                             fontWeight: 'bold',
                             borderBottom: '1px solid #a6a6a6'
-                        }} gutterBottom>Room Code : pem24578</Typography>
+                        }} gutterBottom>Room Code : {roomCode}</Typography>
                         <Grid py={3} px={2}>
                             <MuiMessages socket={socket} />
                             <Box maxWidth={'89%'}>
