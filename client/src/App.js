@@ -27,11 +27,13 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route exact path='/' element={<MuiJoinRoom socket={socket} />} />
-            <Route path='/chat' element={
-              <Suspense fallback={<Loading />}>
-                <MuiChat />
-              </Suspense>
-            } />
+            <Route
+              path='/chat'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <MuiChat socket={socket} />
+                </Suspense>
+              } />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

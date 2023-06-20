@@ -1,15 +1,25 @@
 import { Box, Container, Typography, Grid } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import MuiMessages from './MuiMessages';
 import './styles/chat.css';
+import MuiMessageInp from './MuiMessageInp';
+import { useNavigate } from 'react-router-dom';
 
-const MuiChat = () => {
+const MuiChat = ({socket}) => {
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        if(!localStorage.getItem('username')){
+            navigate('/');
+        }
+    });
+    
     return (
         <>
             <Helmet>
                 <meta charSet="utf-8" />
-                <title>React Messenger | Home</title>
+                <title>Messenger | Home</title>
             </Helmet>
             {/* 
             <AppBar position="static" color="primary">
@@ -46,8 +56,11 @@ const MuiChat = () => {
                             fontWeight: 'bold',
                             borderBottom: '1px solid #a6a6a6'
                         }} gutterBottom>Room Code : pem24578</Typography>
-                        <Grid container spacing={0} py={3} px={2}>
-                            <MuiMessages />
+                        <Grid py={3} px={2}>
+                            <MuiMessages socket={socket} />
+                            <Box maxWidth={'89%'}>
+                                <MuiMessageInp socket={socket} />
+                            </Box>
                         </Grid>
                     </Grid>
                 </Grid>

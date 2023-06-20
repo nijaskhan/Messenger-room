@@ -32,6 +32,7 @@ const MuiJoinRoom = ({ socket }) => {
         } else {
             socket.emit('join_room', { roomCode, username });
             localStorage.setItem('username', username);
+            localStorage.setItem('roomCode', roomCode);
             navigate('/chat');
         }
     }
@@ -42,7 +43,7 @@ const MuiJoinRoom = ({ socket }) => {
         <>
             <Helmet>
                 <meta charSet="utf-8" />
-                <title>React Messenger | Join Room</title>
+                <title>Messenger | Join Room</title>
             </Helmet>
             <Box
                 height='100vh'

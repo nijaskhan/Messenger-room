@@ -21,8 +21,12 @@ io.on('connection', (socket)=>{
     console.log(`socket connected to ${socket.id}`);
 
     socket.on('join_room', ({roomCode, username})=>{
-        console.log(roomCode, "joined the room");
-        console.log(username, "username");
+        socket.join(roomCode);   //joining to the room_code
+        console.log(`${username} joined in roomcode: ${roomCode}`);
+    });
+
+    socket.on("sendMessage", (messageData)=>{
+        socket.to(messageData.roomCode).emit("receiveMessage", messageData);
     });
 
     socket.on('disconnect', ()=>{

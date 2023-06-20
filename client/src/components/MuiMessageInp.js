@@ -3,7 +3,8 @@ import { withStyles } from '@mui/styles';
 import SendIcon from '@mui/icons-material/Send';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import EmojiPicker from 'emoji-picker-react';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { AuthContext } from '../store/AuthContext';
 
 const CustomTextField = withStyles({
     root: {
@@ -21,18 +22,26 @@ const CustomTextField = withStyles({
     },
 })(TextField);
 
-const MuiMessageInp = ({ username, socket }) => {
+const MuiMessageInp = ({ socket }) => {
     const [message, setMessage] = useState("");
     const [showEmoji, setShowEmoji] = useState(false);
+    const { username, roomCode, updateMessages } = useContext(AuthContext);
 
     const handleEmojiClick = (emojiObject, event) => {
         setMessage(message + emojiObject.emoji);
     }
-    const handleSendMsg = () => {
+    const handleSendMsg = async () => {
         if (message.length > 0) {
-            console.log(message);
-            socket.emit("sendMessage", message);
+            const messageData = {
+                roomCode: roomCode,
+                message: message,
+                author: username
+            }
+            updateMessages(messageData);
+            await socket.emit("sendMessage", messageData);
+
             setMessage("");
+            setShowEmoji(false);
         }
     }
     return (
@@ -48,16 +57,13 @@ const MuiMessageInp = ({ username, socket }) => {
                             previewConfig={{ showPreview: false }}
                             width={'20em'}
                             height={'20em'}
-                            lazyLoadEmojis={true}
                             onEmojiClick={handleEmojiClick}
                         />
                     }
                 </Stack>
                 <CustomTextField
                     fullWidth
-                    id=""
                     placeholder='Message...'
-                    width="90%"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     color='black'
