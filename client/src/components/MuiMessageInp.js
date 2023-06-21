@@ -53,7 +53,7 @@ const MuiMessageInp = ({ socket }) => {
             <Box>
                 <Stack sx={{
                     position: 'fixed',
-                    bottom: {lg:'17%', md: '17%', xs: '17%',sm: '16.5%'},
+                    bottom: {lg:'19.2%', md: '19.2%', xs: '17%',sm: '16.5%'},
                     zIndex: '1'
                 }}>
                     {showEmoji &&
