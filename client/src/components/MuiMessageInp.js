@@ -3,6 +3,7 @@ import { withStyles } from '@mui/styles';
 import SendIcon from '@mui/icons-material/Send';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import EmojiPicker from 'emoji-picker-react';
+import { v4 as uuidv4 } from 'uuid';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../store/AuthContext';
 
@@ -26,20 +27,23 @@ const MuiMessageInp = ({ socket }) => {
     const [message, setMessage] = useState("");
     const [showEmoji, setShowEmoji] = useState(false);
     const { username, roomCode, updateMessages } = useContext(AuthContext);
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     const handleEmojiClick = (emojiObject, event) => {
         setMessage(message + emojiObject.emoji);
     }
     const handleSendMsg = async () => {
         if (message.length > 0) {
+            const key = uuidv4();
             const messageData = {
                 roomCode: roomCode,
+                author: username,
+                key: key,
                 message: message,
-                author: username
+                time: time
             }
             updateMessages(messageData);
             await socket.emit("sendMessage", messageData);
-
             setMessage("");
             setShowEmoji(false);
         }
@@ -49,13 +53,13 @@ const MuiMessageInp = ({ socket }) => {
             <Box>
                 <Stack sx={{
                     position: 'fixed',
-                    bottom: '16.5%',
+                    bottom: {lg:'17%', md: '17%', xs: '17%',sm: '16.5%'},
                     zIndex: '1'
                 }}>
                     {showEmoji &&
                         <EmojiPicker
                             previewConfig={{ showPreview: false }}
-                            width={'20em'}
+                            width={{lg:'20em', md: '20em', sm: '5em', xs: '5em' }}
                             height={'20em'}
                             onEmojiClick={handleEmojiClick}
                         />

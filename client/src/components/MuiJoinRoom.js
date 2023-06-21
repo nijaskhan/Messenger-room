@@ -1,7 +1,7 @@
 import { Box, Typography, TextField, Button } from '@mui/material';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import { withStyles } from '@mui/styles';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from 'react-helmet';
@@ -23,7 +23,7 @@ const CustomTextField = withStyles({
 })(TextField);
 
 const MuiJoinRoom = ({ socket }) => {
-    const {username, roomCode, setUsername, setRoomCode} = useContext(AuthContext);
+    const { username, roomCode, setUsername, setRoomCode } = useContext(AuthContext);
     const navigate = useNavigate()
 
     const handleJoinRoom = () => {
@@ -31,13 +31,18 @@ const MuiJoinRoom = ({ socket }) => {
             toast.error("please fill the required field");
         } else {
             socket.emit('join_room', { roomCode, username });
-            localStorage.setItem('username', username);
-            localStorage.setItem('roomCode', roomCode);
+            sessionStorage.setItem('username', username);
+            sessionStorage.setItem('roomCode', roomCode);
             navigate('/chat');
         }
     }
 
-    // set useEffect for checking the session
+    useEffect(() => {
+        if(sessionStorage.getItem('username')){
+            navigate('/chat');
+        }
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <>
@@ -49,7 +54,7 @@ const MuiJoinRoom = ({ socket }) => {
                 height='100vh'
                 display="flex"
                 flexDirection="column"
-                alignItems="center"
+                alignItems="center"                
                 justifyContent="center"
                 overflow="hidden"
                 sx={{
@@ -64,9 +69,11 @@ const MuiJoinRoom = ({ socket }) => {
                     flexDirection="column"
                     padding={'2rem'}
                     alignItems="center"
-                    width={{ xs: '20rem', sm: '15rem', lg: '30rem', md: '25rem' }}
+                    maxWidth={{ xs: '15rem', sm: '8rem', lg: '30rem', md: '25rem' }}
+                    minWidth={{ lg: '29rem', md: '24rem'}}
                     justifyContent="center"
                     color={'white'}
+                    marginX='1rem'
                     border="1px solid white"
                     boxShadow="1px 0px 15px #8080ff"
                     borderRadius={'2rem'}

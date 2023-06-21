@@ -1,6 +1,8 @@
 import { Grid, Typography, Avatar, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React, { useContext, useEffect } from 'react';
+import Lottie from 'react-lottie';
+import * as animationData from '../animations/say_hi_Robo.json';
 import { AuthContext } from '../store/AuthContext';
 
 const useStyles = makeStyles(() => ({
@@ -23,12 +25,20 @@ const MuiMessages = ({ socket }) => {
     const classes = useStyles();
     const { messages, updateMessages, username } = useContext(AuthContext);
 
-    useEffect(() => {
+    // lottie-animation configuration
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
 
+    useEffect(() => {
         socket.on("receiveMessage", (messageData) => {
             updateMessages(messageData);
         });
-
         // Cleaning up the event listener when the component is unmounted
         return () => {
             socket.off("receiveMessage");
@@ -43,48 +53,68 @@ const MuiMessages = ({ socket }) => {
                     {/* message container */}
                     <Box ml={1} className={classes.scrollbar} sx={{
                         overflowY: 'scroll',
+                        overflowX: 'hidden',
                         height: '65vh',
-                        width: '65vw'
+                        width: '100%'
                     }}>
                         {/* author messages */}
                         {messages.length ? (
-                            messages.map((messageDet, index) => {
+                            messages.map((messageDet) => {
                                 return (
-                                    <>
+                                    <React.Fragment key={messageDet.key}>
                                         {messageDet.author !== username ? (
-                                            <Grid container columnGap={1} py={0.5} >
+                                            <Grid container columnGap={1} pb={0.5}>
                                                 <Grid item>
                                                     <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, bgcolor: '#cc7a00' }}>
-                                                        N
+                                                        {messageDet.author[0]}
                                                     </Avatar>
                                                 </Grid>
-                                                <Grid item xs={"auto"}  >
-                                                    <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#737373', borderRadius: '1.5rem', padding: '0.5rem' }}>
+                                                <Grid item sx={{
+                                                    display: 'flex',
+                                                    maxWidth: '70%',
+                                                    flexDirection: 'column',
+                                                }}>
+                                                    <Typography variant="body2" color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#737373', borderRadius: '1.5rem', padding: '0.5rem', textAlign: 'center' }}>
                                                         {messageDet.message}
+                                                    </Typography>
+                                                    <Typography variant="caption" gutterBottom sx={{ marginTop: '0.2em', fontSize: '0.5em', display: 'block' }}>
+                                                        {messageDet.time} * {messageDet.author}
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
                                         ) : (
-                                            <Grid container columnGap={1} py={1.5} px={0.5}>
-                                                <Grid item xs={"auto"} ml={'auto'} >
-                                                    <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#47476b', borderRadius: '1.5rem', padding: '0.5rem' }}>
+                                            <Grid container columnGap={1} pb={0.5} px={0.5}>
+                                                <Grid item ml="auto" sx={{
+                                                    display: 'flex',
+                                                    maxWidth: '70%',
+                                                    flexDirection: 'column',
+                                                }}>
+                                                    <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#47476b', borderRadius: '1.5rem', padding: '0.5rem', textAlign: 'center' }}>
                                                         {messageDet.message}
                                                     </Typography>
+                                                    <Typography variant="caption" gutterBottom sx={{ marginTop: '0.2em', fontSize: '0.5em', display: 'block' }}>
+                                                        {messageDet.time} * {messageDet.author}
+                                                    </Typography>
                                                 </Grid>
-                                                <Grid item >
+                                                <Grid item>
                                                     <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, bgcolor: '#00802b' }}>
-                                                        G
+                                                        {messageDet.author[0]}
                                                     </Avatar>
                                                 </Grid>
                                             </Grid>
+
                                         )}
-                                    </>
+                                    </React.Fragment>
                                 )
                             })
                         ) : (
                             <>
-                                <Box display={'flex'} justifyContent={'center'}>
-                                    <Typography variant="h3" color="initial">animation here</Typography>
+                                <Box width={{ md: '100%', lg: '100%' }} height={{ md: '100%', lg: '100%' }}>
+                                    <Lottie options={defaultOptions}
+                                        height={360}
+                                        width={300}
+                                    />
+                                    {/* <Typography variant="h4" sx={{fontWeight: 'bold', fontStyle: 'italic'}} color="initial">Say Hii !!!</Typography> */}
                                 </Box>
                             </>
                         )}
