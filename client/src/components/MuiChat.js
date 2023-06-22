@@ -50,7 +50,7 @@ const MuiChat = ({ socket }) => {
                     border: '1px solid black',
                     borderRadius: {lg:'2rem', md:'2rem', xs: '0', sm:'0'},
                     padding: '1.5rem',
-                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    backgroundColor: {lg: 'rgba(255, 255, 255, 0.9)',md: 'rgba(255, 255, 255, 0.9)', sm: 'white', xs: 'white'},
                     // backgroundColor: 'white',
                     boxShadow: "1px 0px 15px ##1a1a1af"
                 }}>
