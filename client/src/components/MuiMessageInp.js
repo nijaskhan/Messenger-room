@@ -1,8 +1,6 @@
-import { Box, IconButton, InputAdornment, Stack, TextField } from '@mui/material';
+import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import SendIcon from '@mui/icons-material/Send';
-import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
-import EmojiPicker from 'emoji-picker-react';
 import { v4 as uuidv4 } from 'uuid';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../store/AuthContext';
@@ -25,13 +23,9 @@ const CustomTextField = withStyles({
 
 const MuiMessageInp = ({ socket }) => {
     const [message, setMessage] = useState("");
-    const [showEmoji, setShowEmoji] = useState(false);
     const { username, roomCode, updateMessages } = useContext(AuthContext);
     const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    const handleEmojiClick = (emojiObject, event) => {
-        setMessage(message + emojiObject.emoji);
-    }
     const handleSendMsg = async () => {
         if (message.length > 0) {
             const key = uuidv4();
@@ -45,26 +39,11 @@ const MuiMessageInp = ({ socket }) => {
             updateMessages(messageData);
             await socket.emit("sendMessage", messageData);
             setMessage("");
-            setShowEmoji(false);
         }
     }
     return (
         <>
             <Box>
-                <Stack sx={{
-                    position: 'absolute',
-                    bottom: {xl: '25.3%',lg:'21.5%', md: '19.2%', xs: '9.9rem',sm: '9.5rem'},
-                    zIndex: '1'
-                }}>
-                    {showEmoji &&
-                        <EmojiPicker
-                            previewConfig={{ showPreview: false }}
-                            width={{lg:'20em', md: '20em', sm: '5em', xs: '5em' }}
-                            height={'20em'}
-                            onEmojiClick={handleEmojiClick}
-                        />
-                    }
-                </Stack>
                 <CustomTextField
                     fullWidth
                     placeholder='Message...'
@@ -81,11 +60,6 @@ const MuiMessageInp = ({ socket }) => {
                                 <IconButton onClick={handleSendMsg}><SendIcon color='primary' /></IconButton>
                             </InputAdornment>
                         ),
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <IconButton onClick={() => setShowEmoji(!showEmoji)}><EmojiEmotionsIcon /></IconButton>
-                            </InputAdornment>
-                        )
                     }}
                 />
             </Box>

@@ -12,13 +12,14 @@ import { AuthContext } from '../store/AuthContext';
 const MuiChat = ({ socket }) => {
     const navigate = useNavigate();
     const [isDrawerOpen, setDrawerOpen] = useState(false);
-    const { roomCode, setRoomCode, setUsername, username } = useContext(AuthContext);
+    const { roomCode, setRoomCode, setUsername, username, setMessages } = useContext(AuthContext);
 
     const handleLogout = () => {
         sessionStorage.removeItem('username');
         sessionStorage.removeItem('roomCode');
         setRoomCode('');
         setUsername('');
+        setMessages([]);
         navigate('/');
     }
 
@@ -40,14 +41,14 @@ const MuiChat = ({ socket }) => {
                 <meta charSet="utf-8" />
                 <title>Messenger | Home</title>
             </Helmet>
-            <Box mx={{ lg: '15rem', xs: '2rem', sm: '2rem', md: '6rem' }} height={'100vh'} justifyContent={'center'} sx={{
+            <Box mx={{ lg: '15rem', xs: '0', sm: '0', md: '6rem' }} height={'100vh'} justifyContent={'center'} sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 overflowY: 'hidden'
             }}>
-                <Grid container spacing={{ md: 1, lg: 1 }} justifyContent={'center'} className='chatContainer' height={{xl: '84%', lg: '84%', md: '85%', sm: '85%'}} sx={{
+                <Grid container spacing={{ md: 1, lg: 1 }} justifyContent={'center'} className='chatContainer' height={{xl: '84%', lg: '84%', md: '85%', sm: '100%', xs: '100%'}} sx={{
                     border: '1px solid black',
-                    borderRadius: '2rem',
+                    borderRadius: {lg:'2rem', md:'2rem', xs: '0', sm:'0'},
                     padding: '1.5rem',
                     backgroundColor: 'rgba(255, 255, 255, 0.9)',
                     // backgroundColor: 'white',
@@ -108,7 +109,7 @@ const MuiChat = ({ socket }) => {
                         display: { lg: 'none', md: 'none' }
                     }}>
                         <MuiMessages socket={socket} />
-                        <Box maxWidth={{ lg: '90%', md: '90%', sx: '95%', xs: '95%' }}>
+                        <Box maxWidth={{ lg: '90%', md: '90%', sx: '95%', xs: '95%' }} pt={{sm: 13, xs:10}} pb={2}>
                             <MuiMessageInp socket={socket} />
                         </Box>
                     </Grid>

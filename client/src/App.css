@@ -1,1 +1,4 @@
 /* add the common CSS code only */
+* {
+    max-height: 100%;
+}

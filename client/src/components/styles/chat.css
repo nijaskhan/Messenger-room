@@ -5,11 +5,11 @@ body {
     background-size: cover;
 }
 
-@media screen and (max-width: 450px) {
+/* @media screen and (max-width: 450px) {
     .chatContainer {
-        height: 90%;
+        height: 100%;
     }
-}
+} */
 
 /* @media screen and (max-height: 825px) {
     .chatContainer {
