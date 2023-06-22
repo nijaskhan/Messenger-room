@@ -4,3 +4,28 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+@media screen and (max-width: 450px) {
+    .chatContainer {
+        height: 90%;
+    }
+}
+
+/* @media screen and (max-height: 825px) {
+    .chatContainer {
+        height: 100%;
+    }
+} */
+
+/* @media screen and (max-width: 345px),
+screen and (min-height: 640px) {
+    .chatContainer{
+        height: 100%;
+    }
+} */
+
+/* @media screen and (max-width: 430px) {
+    .chatContainer {
+        height: 85%;
+    }
+} */

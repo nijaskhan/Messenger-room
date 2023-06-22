@@ -53,7 +53,7 @@ const MuiMessageInp = ({ socket }) => {
             <Box>
                 <Stack sx={{
                     position: 'absolute',
-                    bottom: {lg:'19.2%', md: '19.2%', xs: '7rem',sm: '7rem'},
+                    bottom: {xl: '25.3%',lg:'21.5%', md: '19.2%', xs: '9.9rem',sm: '9.5rem'},
                     zIndex: '1'
                 }}>
                     {showEmoji &&
@@ -93,4 +93,4 @@ const MuiMessageInp = ({ socket }) => {
     )
 }
 
-export default MuiMessageInp
+export default MuiMessageInp;

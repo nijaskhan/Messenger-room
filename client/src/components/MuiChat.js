@@ -42,9 +42,10 @@ const MuiChat = ({ socket }) => {
             </Helmet>
             <Box mx={{ lg: '15rem', xs: '2rem', sm: '2rem', md: '6rem' }} height={'100vh'} justifyContent={'center'} sx={{
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                overflowY: 'hidden'
             }}>
-                <Grid container spacing={{ md: 1, lg: 1 }} justifyContent={'center'} height={'90%'} sx={{
+                <Grid container spacing={{ md: 1, lg: 1 }} justifyContent={'center'} className='chatContainer' height={{xl: '84%', lg: '84%', md: '85%', sm: '85%'}} sx={{
                     border: '1px solid black',
                     borderRadius: '2rem',
                     padding: '1.5rem',
@@ -69,7 +70,7 @@ const MuiChat = ({ socket }) => {
                         </Drawer>
                     </Grid>
                     {/* CHAT-SIDEBAR */}
-                    <Grid item md={4} lg={4} height={'79vh'}
+                    <Grid item md={4} lg={4} height={{xl: '98%', lg: '98%', md: '97%', sm: '90%', xs: '90%'}}
                         sx={{
                             backgroundColor: '#e5e5e5',
                             display: { xs: 'none', md: 'flex', lg: 'flex' },
@@ -80,7 +81,8 @@ const MuiChat = ({ socket }) => {
                         <Typography variant="h5" color="initial">Chat Sidebar</Typography>
                         <Button variant="outlined" sx={{
                             mr: '6rem',
-                            ml: '1rem'
+                            ml: '1rem',
+                            my: '2rem'
                         }} endIcon={<LogoutIcon />} onClick={handleLogout} color="error">Leave room</Button>
                     </Grid>
                     {/* CHAT-BODY */}
@@ -90,7 +92,7 @@ const MuiChat = ({ socket }) => {
                             borderBottom: '1px solid #a6a6a6'
                         }} gutterBottom>Room Code : {roomCode}</Typography>
                         <Grid item py={3} lg={12} md={12} sx={{
-                            justifyContent: 'center',
+                            justifyContent: 'space-between',
                             display: { sm: 'none', xs: 'none', md: 'block', lg: 'block' }
                         }}>
                             <MuiMessages socket={socket} />
@@ -102,11 +104,11 @@ const MuiChat = ({ socket }) => {
                         </Grid>
                     </Grid>
                     <Grid item py={3} xs={12} sm={12} sx={{
-                        justifyContent: 'center',
+                        justifyContent: 'space-between',
                         display: { lg: 'none', md: 'none' }
                     }}>
                         <MuiMessages socket={socket} />
-                        <Box maxWidth={{ lg: '90%', md: '90%', sx: '95%', xs: '95%' }} >
+                        <Box maxWidth={{ lg: '90%', md: '90%', sx: '95%', xs: '95%' }}>
                             <MuiMessageInp socket={socket} />
                         </Box>
                     </Grid>

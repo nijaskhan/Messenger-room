@@ -49,7 +49,7 @@ const MuiMessages = ({ socket }) => {
     return (
         <>
             <Box display="flex" flexDirection="column">
-                <Box display="flex" mb={1} >
+                <Box display="flex" >
                     {/* message container */}
                     <Box ml={1} className={classes.scrollbar} sx={{
                         overflowY: 'scroll',
@@ -109,13 +109,10 @@ const MuiMessages = ({ socket }) => {
                             })
                         ) : (
                             <>
-                                <Box width={{ md: '100%', lg: '100%' }} height={{ md: '100%', lg: '100%' }}>
                                     <Lottie options={defaultOptions}
                                         height={360}
                                         width={300}
                                     />
-                                    {/* <Typography variant="h4" sx={{fontWeight: 'bold', fontStyle: 'italic'}} color="initial">Say Hii !!!</Typography> */}
-                                </Box>
                             </>
                         )}
                     </Box>
