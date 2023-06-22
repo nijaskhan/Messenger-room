@@ -14,7 +14,7 @@ const MuiChat = ({ socket }) => {
     const [isDrawerOpen, setDrawerOpen] = useState(false);
     const { roomCode, setRoomCode, setUsername, username } = useContext(AuthContext);
 
-    const handleLogout=()=>{
+    const handleLogout = () => {
         sessionStorage.removeItem('username');
         sessionStorage.removeItem('roomCode');
         setRoomCode('');
@@ -40,7 +40,7 @@ const MuiChat = ({ socket }) => {
                 <meta charSet="utf-8" />
                 <title>Messenger | Home</title>
             </Helmet>
-            <Box mx={2} height={'100vh'} justifyContent={'center'} sx={{
+            <Box mx={{ lg: '15rem', xs: '2rem', sm: '2rem', md: '6rem' }} height={'100vh'} justifyContent={'center'} sx={{
                 display: 'flex',
                 flexDirection: 'column'
             }}>
@@ -53,7 +53,7 @@ const MuiChat = ({ socket }) => {
                     boxShadow: "1px 0px 15px ##1a1a1af"
                 }}>
                     {/* chat drawer */}
-                    <Grid item pt={{xs:'.2em', sm:'.2em'}} xs={2} sm={2} sx={{ cursor: 'pointer', color: 'black', display: { xs: 'flex', lg: 'none', md: 'none', sm: 'flex' } }}>
+                    <Grid item pt={{ xs: '.2em', sm: '.2em' }} xs={2} sm={2} sx={{ cursor: 'pointer', color: 'black', display: { xs: 'flex', lg: 'none', md: 'none', sm: 'flex' } }}>
                         <ViewSidebarIcon onClick={() => setDrawerOpen(true)} />
                         <Drawer anchor='left' open={isDrawerOpen} onClose={() => setDrawerOpen(false)}>
                             <Box p={2} width={'250px'} height={'100vh'} textAlign={'center'} sx={{
@@ -64,7 +64,7 @@ const MuiChat = ({ socket }) => {
                                 <Typography variant="h6" fontWeight={'bolder'} component={'div'} color="initial">
                                     Side Panel
                                 </Typography>
-                                <Button variant="outlined" sx={{mx: '3em', my:'2em'}} onClick={handleLogout} endIcon={<LogoutIcon />} color="error">Leave room</Button>
+                                <Button variant="outlined" sx={{ mx: '3em', my: '2em' }} onClick={handleLogout} endIcon={<LogoutIcon />} color="error">Leave room</Button>
                             </Box>
                         </Drawer>
                     </Grid>

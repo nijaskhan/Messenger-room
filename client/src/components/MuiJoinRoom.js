@@ -1,12 +1,14 @@
-import { Box, Typography, TextField, Button } from '@mui/material';
+import { Box, Typography, TextField, Button, Tooltip } from '@mui/material';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import { withStyles } from '@mui/styles';
 import React, { useContext, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
 import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../store/AuthContext';
+import AddCircleIcon from '@mui/icons-material/AddCircleOutline';
 
 const CustomTextField = withStyles({
     root: {
@@ -14,6 +16,9 @@ const CustomTextField = withStyles({
             '& fieldset': {
                 borderColor: 'white',
                 color: 'white'
+            },
+            '&:hover fieldset': { // Updated selector to &:hover fieldset
+                borderColor: '#cccccc'
             },
         },
         '& label': {
@@ -26,9 +31,16 @@ const MuiJoinRoom = ({ socket }) => {
     const { username, roomCode, setUsername, setRoomCode } = useContext(AuthContext);
     const navigate = useNavigate()
 
+    const handleRoomCode = () => {
+        const roomCode = uuidv4().toString();
+        setRoomCode(roomCode.substring(0, 6));
+    }
+
     const handleJoinRoom = () => {
         if (username.length <= 0 || roomCode.length <= 0) {
             toast.error("please fill the required field");
+        } else if (roomCode.length <= 4) {
+            toast.error("Room Code must be at least 5 characters");
         } else {
             socket.emit('join_room', { roomCode, username });
             sessionStorage.setItem('username', username);
@@ -74,6 +86,7 @@ const MuiJoinRoom = ({ socket }) => {
                     justifyContent="center"
                     color={'white'}
                     marginX='1rem'
+                    backgroundColor='rgba(0, 0, 0, 0.4)'
                     border="1px solid white"
                     boxShadow="1px 0px 15px #8080ff"
                     borderRadius={'2rem'}
@@ -111,6 +124,12 @@ const MuiJoinRoom = ({ socket }) => {
                         color='third'
                         inputProps={{
                             style: { color: 'white' }
+                        }}
+                        InputProps={{
+                            endAdornment:
+                                <Tooltip title='Click to add unique Room code' arrow>
+                                    <AddCircleIcon color={'third'} onClick={handleRoomCode} sx={{ cursor: 'pointer' }} />
+                                </Tooltip>
                         }}
                         margin="normal"
                     />
