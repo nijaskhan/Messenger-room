@@ -1,6 +1,7 @@
-import { Box, Typography, Grid, Drawer } from '@mui/material';
+import { Box, Typography, Grid, Drawer, Button } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { Helmet } from 'react-helmet';
 import MuiMessages from './MuiMessages';
 import './styles/chat.css';
@@ -12,6 +13,14 @@ const MuiChat = ({ socket }) => {
     const navigate = useNavigate();
     const [isDrawerOpen, setDrawerOpen] = useState(false);
     const { roomCode, setRoomCode, setUsername, username } = useContext(AuthContext);
+
+    const handleLogout=()=>{
+        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('roomCode');
+        setRoomCode('');
+        setUsername('');
+        navigate('/');
+    }
 
     useEffect(() => {
         if (!sessionStorage.getItem('username')) {
@@ -35,8 +44,7 @@ const MuiChat = ({ socket }) => {
                 display: 'flex',
                 flexDirection: 'column'
             }}>
-                
-                <Grid container spacing={{md:1, lg:1}} justifyContent={'center'} height={'90%'} sx={{
+                <Grid container spacing={{ md: 1, lg: 1 }} justifyContent={'center'} height={'90%'} sx={{
                     border: '1px solid black',
                     borderRadius: '2rem',
                     padding: '1.5rem',
@@ -44,27 +52,37 @@ const MuiChat = ({ socket }) => {
                     // backgroundColor: 'white',
                     boxShadow: "1px 0px 15px ##1a1a1af"
                 }}>
-                    <Grid item pt={2.5} xs={2} sm={2} sx={{ cursor: 'pointer', color:'black', display:{xs:'flex', lg:'none', md:'none', sm:'flex'} }}>
+                    {/* chat drawer */}
+                    <Grid item pt={{xs:'.2em', sm:'.2em'}} xs={2} sm={2} sx={{ cursor: 'pointer', color: 'black', display: { xs: 'flex', lg: 'none', md: 'none', sm: 'flex' } }}>
                         <ViewSidebarIcon onClick={() => setDrawerOpen(true)} />
                         <Drawer anchor='left' open={isDrawerOpen} onClose={() => setDrawerOpen(false)}>
-                            <Box p={2} width={'250px'} textAlign={'center'} role='presentation'>
+                            <Box p={2} width={'250px'} height={'100vh'} textAlign={'center'} sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'space-between'
+                            }}>
                                 <Typography variant="h6" fontWeight={'bolder'} component={'div'} color="initial">
                                     Side Panel
                                 </Typography>
+                                <Button variant="outlined" sx={{mx: '3em', my:'2em'}} onClick={handleLogout} endIcon={<LogoutIcon />} color="error">Leave room</Button>
                             </Box>
                         </Drawer>
                     </Grid>
-
                     {/* CHAT-SIDEBAR */}
                     <Grid item md={4} lg={4} height={'79vh'}
                         sx={{
                             backgroundColor: '#e5e5e5',
                             display: { xs: 'none', md: 'flex', lg: 'flex' },
-                            borderRadius: '1rem'
+                            flexDirection: 'column',
+                            borderRadius: '1rem',
+                            justifyContent: 'space-between'
                         }}>
                         <Typography variant="h5" color="initial">Chat Sidebar</Typography>
+                        <Button variant="outlined" sx={{
+                            mr: '6rem',
+                            ml: '1rem'
+                        }} endIcon={<LogoutIcon />} onClick={handleLogout} color="error">Leave room</Button>
                     </Grid>
-
                     {/* CHAT-BODY */}
                     <Grid item xs={10} sm={10} md={8} lg={8} >
                         <Typography variant="h5" color="initial" sx={{
@@ -73,25 +91,25 @@ const MuiChat = ({ socket }) => {
                         }} gutterBottom>Room Code : {roomCode}</Typography>
                         <Grid item py={3} lg={12} md={12} sx={{
                             justifyContent: 'center',
-                            display: {sm: 'none', xs: 'none', md: 'block', lg: 'block'}
+                            display: { sm: 'none', xs: 'none', md: 'block', lg: 'block' }
                         }}>
                             <MuiMessages socket={socket} />
-                            <Box maxWidth={{lg:'89%',md:'89%'}} justifyContent={'center'} sx={{
-                                paddingLeft: {lg: '2em', md: '2em'}
+                            <Box maxWidth={{ lg: '89%', md: '89%' }} justifyContent={'center'} sx={{
+                                paddingLeft: { lg: '2em', md: '2em' }
                             }}>
                                 <MuiMessageInp socket={socket} />
                             </Box>
                         </Grid>
                     </Grid>
-                        <Grid item py={3} xs={12} sm={12} sx={{
-                            justifyContent: 'center',
-                            display: {lg: 'none',md: 'none'}
-                        }}>
-                            <MuiMessages socket={socket} />
-                            <Box maxWidth={{lg:'90%',md:'90%',sx:'95%',xs:'95%'}} >
-                                <MuiMessageInp socket={socket} />
-                            </Box>
-                        </Grid>
+                    <Grid item py={3} xs={12} sm={12} sx={{
+                        justifyContent: 'center',
+                        display: { lg: 'none', md: 'none' }
+                    }}>
+                        <MuiMessages socket={socket} />
+                        <Box maxWidth={{ lg: '90%', md: '90%', sx: '95%', xs: '95%' }} >
+                            <MuiMessageInp socket={socket} />
+                        </Box>
+                    </Grid>
                 </Grid>
             </Box>
         </>

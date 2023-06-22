@@ -38,7 +38,7 @@ const MuiJoinRoom = ({ socket }) => {
     }
 
     useEffect(() => {
-        if(sessionStorage.getItem('username')){
+        if (sessionStorage.getItem('username')) {
             navigate('/chat');
         }
         // eslint-disable-next-line
@@ -54,7 +54,7 @@ const MuiJoinRoom = ({ socket }) => {
                 height='100vh'
                 display="flex"
                 flexDirection="column"
-                alignItems="center"                
+                alignItems="center"
                 justifyContent="center"
                 overflow="hidden"
                 sx={{
@@ -70,7 +70,7 @@ const MuiJoinRoom = ({ socket }) => {
                     padding={'2rem'}
                     alignItems="center"
                     maxWidth={{ xs: '15rem', sm: '8rem', lg: '30rem', md: '25rem' }}
-                    minWidth={{ lg: '29rem', md: '24rem'}}
+                    minWidth={{ lg: '29rem', md: '24rem' }}
                     justifyContent="center"
                     color={'white'}
                     marginX='1rem'
@@ -103,6 +103,9 @@ const MuiJoinRoom = ({ socket }) => {
                         required
                         value={roomCode}
                         onChange={(e) => setRoomCode(e.target.value)}
+                        onKeyUp={(e) => {
+                            if (e.key === 'Enter') handleJoinRoom();
+                        }}
                         size='small'
                         fullWidth
                         color='third'
