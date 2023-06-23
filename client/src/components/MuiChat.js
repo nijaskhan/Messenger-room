@@ -46,7 +46,7 @@ const MuiChat = ({ socket }) => {
                 flexDirection: 'column',
                 overflowY: 'hidden'
             }}>
-                <Grid container spacing={{ md: 1, lg: 1 }} justifyContent={'center'} className='chatContainer' height={{xl: '84%', lg: '84%', md: '85%', sm: '100%', xs: '100%'}} sx={{
+                <Grid container spacing={{ md: 1, lg: 1 }} justifyContent={'center'} className='chatContainer' height={{xl: '84%', lg: '89%', md: '91%', sm: '100%', xs: '100%'}} sx={{
                     border: '1px solid black',
                     borderRadius: {lg:'2rem', md:'2rem', xs: '0', sm:'0'},
                     padding: '1.5rem',
@@ -81,9 +81,9 @@ const MuiChat = ({ socket }) => {
                         }}>
                         <Typography variant="h5" color="initial">Chat Sidebar</Typography>
                         <Button variant="outlined" sx={{
-                            mr: '6rem',
+                            mr: '3rem',
                             ml: '1rem',
-                            my: '2rem'
+                            my: '0rem'
                         }} endIcon={<LogoutIcon />} onClick={handleLogout} color="error">Leave room</Button>
                     </Grid>
                     {/* CHAT-BODY */}

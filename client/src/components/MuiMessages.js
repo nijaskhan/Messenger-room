@@ -1,6 +1,6 @@
 import { Grid, Typography, Avatar, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import Lottie from 'react-lottie';
 import * as animationData from '../animations/say_hi_Robo.json';
 import { AuthContext } from '../store/AuthContext';
@@ -24,6 +24,7 @@ const useStyles = makeStyles(() => ({
 const MuiMessages = ({ socket }) => {
     const classes = useStyles();
     const { messages, updateMessages, username } = useContext(AuthContext);
+    const chatContainerRef = useRef(null);
 
     // lottie-animation configuration
     const defaultOptions = {
@@ -35,10 +36,16 @@ const MuiMessages = ({ socket }) => {
         }
     };
 
+    const scrollToBottom = () => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+    };
     useEffect(() => {
         socket.on("receiveMessage", (messageData) => {
             updateMessages(messageData);
         });
+        scrollToBottom();
         // Cleaning up the event listener when the component is unmounted
         return () => {
             socket.off("receiveMessage");
@@ -51,9 +58,11 @@ const MuiMessages = ({ socket }) => {
             <Box display="flex" flexDirection="column">
                 <Box display="flex" >
                     {/* message container */}
-                    <Box ml={1} className={classes.scrollbar} sx={{
+                    <Box ml={1} ref={chatContainerRef} className={classes.scrollbar} sx={{
                         overflowY: 'scroll',
                         overflowX: 'hidden',
+                        scrollBehavior: 'smooth',
+                        transition: 'scroll-top 0.3s ease-out',
                         height: '65vh',
                         width: '100%'
                     }}>
@@ -109,10 +118,10 @@ const MuiMessages = ({ socket }) => {
                             })
                         ) : (
                             <>
-                                    <Lottie options={defaultOptions}
-                                        height={360}
-                                        width={300}
-                                    />
+                                <Lottie options={defaultOptions}
+                                    height={360}
+                                    width={300}
+                                />
                             </>
                         )}
                     </Box>

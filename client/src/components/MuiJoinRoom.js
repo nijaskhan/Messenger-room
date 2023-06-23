@@ -81,7 +81,7 @@ const MuiJoinRoom = ({ socket }) => {
                     flexDirection="column"
                     padding={'2rem'}
                     alignItems="center"
-                    maxWidth={{ xs: '15rem', sm: '8rem', lg: '30rem', md: '25rem' }}
+                    maxWidth={{ xs: '15rem', sm: '15rem', lg: '30rem', md: '25rem' }}
                     minWidth={{ lg: '29rem', md: '24rem' }}
                     justifyContent="center"
                     color={'white'}
