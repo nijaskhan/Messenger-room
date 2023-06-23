@@ -42,7 +42,7 @@ const MuiJoinRoom = ({ socket }) => {
         } else if (roomCode.length <= 4) {
             toast.error("Room Code must be at least 5 characters");
         } else {
-            socket.emit('join_room', { roomCode, username });
+            socket.emit('join_room', { roomCode, username, login:true });
             sessionStorage.setItem('username', username);
             sessionStorage.setItem('roomCode', roomCode);
             navigate('/chat');

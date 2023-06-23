@@ -8,11 +8,12 @@ import './styles/chat.css';
 import MuiMessageInp from './MuiMessageInp';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../store/AuthContext';
+import { ToastContainer, Zoom, toast } from 'react-toastify';
 
 const MuiChat = ({ socket }) => {
     const navigate = useNavigate();
     const [isDrawerOpen, setDrawerOpen] = useState(false);
-    const { roomCode, setRoomCode, setUsername, username, setMessages } = useContext(AuthContext);
+    const { roomCode, setRoomCode, setUsername, username, setMessages, users, setUsers } = useContext(AuthContext);
 
     const handleLogout = () => {
         sessionStorage.removeItem('username');
@@ -27,13 +28,29 @@ const MuiChat = ({ socket }) => {
         if (!sessionStorage.getItem('username')) {
             navigate('/');
         } else if (sessionStorage.getItem('username') && sessionStorage.getItem('roomCode')) {
-            setRoomCode(sessionStorage.getItem('roomCode') || '');
-            setUsername(sessionStorage.getItem('username') || '');
-            socket.emit('join_room', { roomCode, username });
+            setUsername(sessionStorage.getItem('username'));
+            setRoomCode(sessionStorage.getItem('roomCode'));
         } else {
             navigate('/');
         }
-    });
+        // eslint-disable-next-line
+    }, []);
+
+    useEffect(() => {
+        if (username) {
+            socket.emit('join_room', { roomCode, username, login:false });
+            socket.on('userJoined', (username) => {
+                if(users){
+                    const isExist = users.some((user) => user === username);
+                    if (!isExist) {
+                        setUsers(username);
+                        toast.success(`${username} joined`);
+                    }
+                }
+            })
+        }
+        // eslint-disable-next-line
+    }, [username]);
 
     return (
         <>
@@ -46,11 +63,11 @@ const MuiChat = ({ socket }) => {
                 flexDirection: 'column',
                 overflowY: 'hidden'
             }}>
-                <Grid container spacing={{ md: 1, lg: 1 }} justifyContent={'center'} className='chatContainer' height={{xl: '84%', lg: '89%', md: '91%', sm: '100%', xs: '100%'}} sx={{
+                <Grid container spacing={{ md: 1, lg: 1 }} justifyContent={'center'} className='chatContainer' height={{ xl: '84%', lg: '89%', md: '91%', sm: '100%', xs: '100%' }} sx={{
                     border: '1px solid black',
-                    borderRadius: {lg:'2rem', md:'2rem', xs: '0', sm:'0'},
+                    borderRadius: { lg: '2rem', md: '2rem', xs: '0', sm: '0' },
                     padding: '1.5rem',
-                    backgroundColor: {lg: 'rgba(255, 255, 255, 0.9)',md: 'rgba(255, 255, 255, 0.9)', sm: 'white', xs: 'white'},
+                    backgroundColor: { lg: 'rgba(255, 255, 255, 0.9)', md: 'rgba(255, 255, 255, 0.9)', sm: 'white', xs: 'white' },
                     // backgroundColor: 'white',
                     boxShadow: "1px 0px 15px ##1a1a1af"
                 }}>
@@ -71,7 +88,7 @@ const MuiChat = ({ socket }) => {
                         </Drawer>
                     </Grid>
                     {/* CHAT-SIDEBAR */}
-                    <Grid item md={4} lg={4} height={{xl: '98%', lg: '98%', md: '97%', sm: '90%', xs: '90%'}}
+                    <Grid item md={4} lg={4} height={{ xl: '98%', lg: '98%', md: '97%', sm: '90%', xs: '90%' }}
                         sx={{
                             backgroundColor: '#e5e5e5',
                             display: { xs: 'none', md: 'flex', lg: 'flex' },
@@ -109,12 +126,25 @@ const MuiChat = ({ socket }) => {
                         display: { lg: 'none', md: 'none' }
                     }}>
                         <MuiMessages socket={socket} />
-                        <Box maxWidth={{ lg: '90%', md: '90%', sx: '95%', xs: '95%' }} pt={{sm: 13, xs:10}} pb={2}>
+                        <Box maxWidth={{ lg: '90%', md: '90%', sx: '95%', xs: '95%' }} pt={{ sm: 13, xs: 10 }} pb={2}>
                             <MuiMessageInp socket={socket} />
                         </Box>
                     </Grid>
                 </Grid>
             </Box>
+            <ToastContainer
+                position="top-center"
+                autoClose={1000}
+                limit={1}
+                hideProgressBar={true}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover={false}
+                transition={Zoom}
+                theme="light"
+            />
         </>
     )
 }
