@@ -111,7 +111,6 @@ const MuiMessages = ({ socket }) => {
                                                     </Avatar>
                                                 </Grid>
                                             </Grid>
-
                                         )}
                                     </React.Fragment>
                                 )

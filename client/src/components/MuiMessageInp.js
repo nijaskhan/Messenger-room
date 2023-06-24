@@ -12,7 +12,6 @@ const CustomTextField = withStyles({
             '& fieldset': {
                 borderColor: 'grey',
                 color: 'black',
-
             },
         },
         '& label': {
