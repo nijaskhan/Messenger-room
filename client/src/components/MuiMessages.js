@@ -63,7 +63,7 @@ const MuiMessages = ({ socket }) => {
                         overflowX: 'hidden',
                         scrollBehavior: 'smooth',
                         transition: 'scroll-top 0.3s ease-out',
-                        height: '65vh',
+                        height: { lg: '61vh', md: '61vh', sm: '72vh', xs: '72vh' },
                         width: '100%'
                     }}>
                         {/* author messages */}

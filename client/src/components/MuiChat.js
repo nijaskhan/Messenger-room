@@ -38,9 +38,9 @@ const MuiChat = ({ socket }) => {
 
     useEffect(() => {
         if (username) {
-            socket.emit('join_room', { roomCode, username, login:false });
+            socket.emit('join_room', { roomCode, username, login: false });
             socket.on('userJoined', (username) => {
-                if(users){
+                if (users) {
                     const isExist = users.some((user) => user === username);
                     if (!isExist) {
                         setUsers(username);
@@ -100,7 +100,7 @@ const MuiChat = ({ socket }) => {
                         <Button variant="outlined" sx={{
                             mr: '3rem',
                             ml: '1rem',
-                            my: '0rem'
+                            my: '2rem'
                         }} endIcon={<LogoutIcon />} onClick={handleLogout} color="error">Leave room</Button>
                     </Grid>
                     {/* CHAT-BODY */}
@@ -114,7 +114,7 @@ const MuiChat = ({ socket }) => {
                             display: { sm: 'none', xs: 'none', md: 'block', lg: 'block' }
                         }}>
                             <MuiMessages socket={socket} />
-                            <Box maxWidth={{ lg: '89%', md: '89%' }} justifyContent={'center'} sx={{
+                            <Box maxWidth={{ lg: '89%', md: '89%' }} pt={{ lg: 2, md: 2 }} justifyContent={'center'} sx={{
                                 paddingLeft: { lg: '2em', md: '2em' }
                             }}>
                                 <MuiMessageInp socket={socket} />
@@ -125,8 +125,10 @@ const MuiChat = ({ socket }) => {
                         justifyContent: 'space-between',
                         display: { lg: 'none', md: 'none' }
                     }}>
-                        <MuiMessages socket={socket} />
-                        <Box maxWidth={{ lg: '90%', md: '90%', sx: '95%', xs: '95%' }} pt={{ sm: 13, xs: 10 }} pb={2}>
+                        <Box height={{ xl: '96%', lg: '96%', md: '95%', sm: '91%', xs: '91%' }} >
+                            <MuiMessages socket={socket} />
+                        </Box>
+                        <Box maxWidth={{ lg: '90%', md: '90%', sx: '95%', xs: '95%' }} pt={{ sm: 1, xs: 1 }} pb={2}>
                             <MuiMessageInp socket={socket} />
                         </Box>
                     </Grid>
