@@ -17,7 +17,7 @@ const MuiChat = ({ socket }) => {
     const navigate = useNavigate();
     const [showDialog, setShowDialog] = useState(false);
     const [isDrawerOpen, setDrawerOpen] = useState(false);
-    const { roomCode, setRoomCode, setUsername, username, setMessages, users, setUsers } = useContext(AuthContext);
+    const { roomCode, setRoomCode, setUsername, username, setMessages, users, setUsers, messages } = useContext(AuthContext);
 
     const handleLogout = () => {
         sessionStorage.removeItem('username');
@@ -35,8 +35,9 @@ const MuiChat = ({ socket }) => {
             setUsername(sessionStorage.getItem('username'));
             setRoomCode(sessionStorage.getItem('roomCode'));
             getMessages(roomCode).then((response) => {
-                console.log(response);
+                // console.log(response.messageDatas[0].messageData);
                 setMessages(response.messageDatas[0]?.messageData);
+                console.log(messages);
             });
         } else {
             navigate('/');
@@ -48,13 +49,17 @@ const MuiChat = ({ socket }) => {
         if (username) {
             socket.emit('join_room', { roomCode, username, login: false });
             console.log(users);
+            console.log("toast working !!!")
             socket.on('userJoined', (username) => {
                 if (users) {
                     const isExist = users?.some((user) => user === username);
-                    if (!isExist) {
-                        setUsers(username);
+                    console.log(isExist);
+                    if (isExist) {
+                        setUsers([...users, username]);
                         toast.success(`${username} joined`);
                     }
+                }else{
+                    setUsers([username]);
                 }
             })
         }

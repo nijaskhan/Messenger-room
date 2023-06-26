@@ -5,7 +5,7 @@ const dbConfig = require('./config/dbConfig');
 const http = require('http');
 const cors = require('cors');
 const { Server } = require('socket.io');
-const Messages = require('./Models/messages');
+const Messages = require('./models/messages');
 const PORT = process.env.PORT || 5000;
 const routes = require('./routes');
 
