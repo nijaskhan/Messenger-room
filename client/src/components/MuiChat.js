@@ -1,17 +1,21 @@
-import { Box, Typography, Grid, Drawer, Button } from '@mui/material';
+import { Box, Typography, Grid, Drawer, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar';
 import LogoutIcon from '@mui/icons-material/Logout';
+import SaveIcon from '@mui/icons-material/Save';
 import { Helmet } from 'react-helmet';
 import MuiMessages from './MuiMessages';
+import { LoadingButton } from '@mui/lab';
 import './styles/chat.css';
 import MuiMessageInp from './MuiMessageInp';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../store/AuthContext';
 import { ToastContainer, Zoom, toast } from 'react-toastify';
+import { getMessages } from '../apiCalls';
 
 const MuiChat = ({ socket }) => {
     const navigate = useNavigate();
+    const [showDialog, setShowDialog] = useState(false);
     const [isDrawerOpen, setDrawerOpen] = useState(false);
     const { roomCode, setRoomCode, setUsername, username, setMessages, users, setUsers } = useContext(AuthContext);
 
@@ -30,6 +34,10 @@ const MuiChat = ({ socket }) => {
         } else if (sessionStorage.getItem('username') && sessionStorage.getItem('roomCode')) {
             setUsername(sessionStorage.getItem('username'));
             setRoomCode(sessionStorage.getItem('roomCode'));
+            getMessages(roomCode).then((response) => {
+                console.log(response);
+                setMessages(response.messageDatas[0]?.messageData);
+            });
         } else {
             navigate('/');
         }
@@ -39,9 +47,10 @@ const MuiChat = ({ socket }) => {
     useEffect(() => {
         if (username) {
             socket.emit('join_room', { roomCode, username, login: false });
+            console.log(users);
             socket.on('userJoined', (username) => {
                 if (users) {
-                    const isExist = users.some((user) => user === username);
+                    const isExist = users?.some((user) => user === username);
                     if (!isExist) {
                         setUsers(username);
                         toast.success(`${username} joined`);
@@ -83,8 +92,21 @@ const MuiChat = ({ socket }) => {
                                 <Typography variant="h6" fontWeight={'bolder'} component={'div'} color="initial">
                                     Side Panel
                                 </Typography>
-                                <Button variant="outlined" sx={{ mx: '3em', my: '2em' }} onClick={handleLogout} endIcon={<LogoutIcon />} color="error">Leave room</Button>
-                            </Box>
+                                <Box>
+                                    <Box>
+                                        <LoadingButton
+                                            loading={false}
+                                            variant='outlined'
+                                            color='success'
+                                            loadingPosition='end'
+                                            endIcon={<SaveIcon />}
+                                        >
+                                            save
+                                        </LoadingButton>
+                                    </Box>
+                                        <Button variant="outlined" sx={{ mx: '3em', my: '2em' }} onClick={() => setShowDialog(true)} endIcon={<LogoutIcon />} color="error">Leave room</Button>
+                                    </Box>
+                                </Box>
                         </Drawer>
                     </Grid>
                     {/* CHAT-SIDEBAR */}
@@ -97,11 +119,47 @@ const MuiChat = ({ socket }) => {
                             justifyContent: 'space-between'
                         }}>
                         <Typography variant="h5" color="initial">Chat Sidebar</Typography>
-                        <Button variant="outlined" sx={{
+                        <Box sx={{
                             mr: '3rem',
                             ml: '1rem',
-                            my: '2rem'
-                        }} endIcon={<LogoutIcon />} onClick={handleLogout} color="error">Leave room</Button>
+                            my: '2rem',
+                        }}>
+                            <Box py={2}>
+                                <LoadingButton
+                                    loading={false}
+                                    variant='outlined'
+                                    color='success'
+                                    loadingPosition='end'
+                                    endIcon={<SaveIcon />}
+                                >
+                                    save
+                                </LoadingButton>
+                            </Box>
+                            <Box>
+                                <Button variant="outlined" endIcon={<LogoutIcon />} onClick={() => setShowDialog(true)} color="error">Leave room</Button>
+                            </Box>
+                            <Dialog
+                                open={showDialog}
+                                fullWidth
+                            >
+                                <DialogTitle >
+                                    Are you sure want to Leave Room ?
+                                </DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText>
+                                        If you leave room without saving, the messages will be lost.
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button variant="outlined" color="success" onClick={() => setShowDialog(false)}>
+                                        Go Back To Chat
+                                    </Button>
+                                    <Button variant="contained" autoFocus color="error" onClick={handleLogout}>
+                                        Leave Room
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+                        </Box>
                     </Grid>
                     {/* CHAT-BODY */}
                     <Grid item xs={10} sm={10} md={8} lg={8} >
