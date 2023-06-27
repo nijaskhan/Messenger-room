@@ -51,10 +51,11 @@ const MuiChat = ({ socket }) => {
             console.log(users);
             console.log("toast working !!!")
             socket.on('userJoined', (username) => {
+                let isExist = true;
                 if (users) {
-                    const isExist = users?.some((user) => user === username);
+                    isExist = users.some((user) => user === username);
                     console.log(isExist);
-                    if (isExist) {
+                    if (!isExist) {
                         setUsers([...users, username]);
                         toast.success(`${username} joined`);
                     }
