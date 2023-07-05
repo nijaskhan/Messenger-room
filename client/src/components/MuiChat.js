@@ -35,7 +35,7 @@ const MuiChat = ({ socket }) => {
             setUsername(sessionStorage.getItem('username'));
             setRoomCode(sessionStorage.getItem('roomCode'));
             getMessages(roomCode).then((response) => {
-                setMessages(response.messageDatas[0]?.messageData);
+                if(response.messageDatas.length!==0) setMessages(response.messageDatas[0]?.messageData);
             });
         } else {
             navigate('/');
