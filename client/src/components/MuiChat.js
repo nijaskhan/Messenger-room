@@ -25,7 +25,7 @@ const MuiChat = ({ socket }) => {
         setRoomCode('');
         setUsername('');
         setMessages([]);
-        navigate('/');
+        window.location.reload();
     }
 
     useEffect(() => {
@@ -40,12 +40,12 @@ const MuiChat = ({ socket }) => {
         } else {
             navigate('/');
         }
+        socket.emit('join_room', { roomCode, username, login: false });
         // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
         if (username) {
-            socket.emit('join_room', { roomCode, username, login: false });
             socket.on('userJoined', (username) => {
                 let isExist = true;
                 if (users) {
