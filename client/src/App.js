@@ -6,8 +6,8 @@ import { lazy, Suspense } from 'react';
 import Loading from './components/Loading';
 import './App.css';
 
-const socket = io('http://localhost:5000');
-// const socket = io('https://messenger-server-6jy4.onrender.com');
+// const socket = io('http://localhost:5000');
+const socket = io('https://messenger-server-6jy4.onrender.com');
 
 const theme = createTheme({
   palette: {
