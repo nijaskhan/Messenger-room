@@ -1,11 +1,9 @@
-import { Box, Typography, Grid, Drawer, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { Box, Typography, Grid, Drawer, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, FormControlLabel, Switch } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar';
 import LogoutIcon from '@mui/icons-material/Logout';
-import SaveIcon from '@mui/icons-material/Save';
 import { Helmet } from 'react-helmet';
 import MuiMessages from './MuiMessages';
-import { LoadingButton } from '@mui/lab';
 import './styles/chat.css';
 import MuiMessageInp from './MuiMessageInp';
 import { useNavigate } from 'react-router-dom';
@@ -15,10 +13,16 @@ import { getMessages } from '../apiCalls';
 
 const MuiChat = ({ socket }) => {
     const navigate = useNavigate();
+    const [checked, setChecked] = useState(false);
     const [showDialog, setShowDialog] = useState(false);
     const [isDrawerOpen, setDrawerOpen] = useState(false);
     const { roomCode, setRoomCode, setUsername, username, setMessages, users, setUsers } = useContext(AuthContext);
 
+    const handleSaveRoom = (event) => {
+        // console.log("dark mode : ", event.target.checked);
+        if (event.target.checked) toast.success('Room saved');
+        setChecked(event.target.checked);
+    }
     const handleLogout = () => {
         sessionStorage.removeItem('username');
         sessionStorage.removeItem('roomCode');
@@ -35,7 +39,7 @@ const MuiChat = ({ socket }) => {
             setUsername(sessionStorage.getItem('username'));
             setRoomCode(sessionStorage.getItem('roomCode'));
             getMessages(roomCode).then((response) => {
-                if(response.messageDatas.length!==0) setMessages(response.messageDatas[0]?.messageData);
+                if (response.messageDatas.length !== 0) setMessages(response.messageDatas[0]?.messageData);
             });
         } else {
             navigate('/');
@@ -54,7 +58,7 @@ const MuiChat = ({ socket }) => {
                         setUsers([...users, username]);
                         toast.success(`${username} joined`);
                     }
-                }else{
+                } else {
                     setUsers([username]);
                 }
             })
@@ -90,24 +94,31 @@ const MuiChat = ({ socket }) => {
                                 flexDirection: 'column',
                                 justifyContent: 'space-between'
                             }}>
-                                <Typography variant="h6" fontWeight={'bolder'} component={'div'} color="initial">
-                                    Side Panel
-                                </Typography>
-                                <Box>
-                                    <Box>
-                                        <LoadingButton
-                                            loading={false}
-                                            variant='outlined'
-                                            color='success'
-                                            loadingPosition='end'
-                                            endIcon={<SaveIcon />}
-                                        >
-                                            save
-                                        </LoadingButton>
-                                    </Box>
-                                        <Button variant="outlined" sx={{ mx: '3em', my: '2em' }} onClick={() => setShowDialog(true)} endIcon={<LogoutIcon />} color="error">Leave room</Button>
-                                    </Box>
+                                <Box sx={{
+                                    display: 'flex',
+                                    marginLeft: '2em',
+                                }}>
+                                    <img
+                                        src="https://clipground.com/images/messenger-logo-png-6.png"
+                                        alt="Messenger Logo"
+                                        style={{ width: '40px', height: '35px', marginRight: '8px' }}
+                                    />
+                                    <Typography
+                                        variant="h5"
+                                        color="initial"
+                                        sx={{
+                                            fontWeight: 'bold'
+                                        }}
+                                        gutterBottom
+                                    >
+                                        Messenger
+                                    </Typography>
                                 </Box>
+                                <Box>
+                                    <Button variant="outlined" sx={{ mx: '3em' }} endIcon={<FormControlLabel control={<Switch checked={checked} onChange={handleSaveRoom} color={'success'} />} />} color="success">Save room</Button>
+                                    <Button variant="outlined" sx={{ mx: '3em', my: '2em' }} onClick={() => setShowDialog(true)} endIcon={<LogoutIcon />} color="error">Leave room</Button>
+                                </Box>
+                            </Box>
                         </Drawer>
                     </Grid>
                     {/* CHAT-SIDEBAR */}
@@ -119,22 +130,34 @@ const MuiChat = ({ socket }) => {
                             borderRadius: '1rem',
                             justifyContent: 'space-between'
                         }}>
-                        <Typography variant="h5" color="initial">Chat Sidebar</Typography>
+                        <Box sx={{
+                            display: 'flex',
+                            marginLeft: '1em',
+                            marginTop: '0.5em'
+                        }}>
+                            <img
+                                src="https://clipground.com/images/messenger-logo-png-6.png"
+                                alt="Messenger Logo"
+                                style={{ width: '40px', height: '35px', marginRight: '8px' }}
+                            />
+                            <Typography
+                                variant="h5"
+                                color="initial"
+                                sx={{
+                                    fontWeight: 'bold'
+                                }}
+                                gutterBottom
+                            >
+                                Messenger
+                            </Typography>
+                        </Box>
                         <Box sx={{
                             mr: '3rem',
                             ml: '1rem',
                             my: '2rem',
                         }}>
                             <Box py={2}>
-                                <LoadingButton
-                                    loading={false}
-                                    variant='outlined'
-                                    color='success'
-                                    loadingPosition='end'
-                                    endIcon={<SaveIcon />}
-                                >
-                                    save
-                                </LoadingButton>
+                                <Button variant="outlined" sx={{ mr: '3em' }} endIcon={<FormControlLabel control={<Switch checked={checked} onChange={handleSaveRoom} color={'success'} />} />} color="success">Save room</Button>
                             </Box>
                             <Box>
                                 <Button variant="outlined" endIcon={<LogoutIcon />} onClick={() => setShowDialog(true)} color="error">Leave room</Button>
