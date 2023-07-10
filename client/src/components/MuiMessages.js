@@ -67,14 +67,14 @@ const MuiMessages = ({ socket }) => {
                         width: '100%'
                     }}>
                         {/* author messages */}
-                        {messages.length ? (
+                        {messages!==undefined||null ? (
                             messages.map((messageDet) => {
                                 return (
                                     <React.Fragment key={messageDet.key}>
                                         {messageDet.author !== username ? (
                                             <Grid container columnGap={1} pb={0.5}>
                                                 <Grid item>
-                                                    <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, bgcolor: '#cc7a00' }}>
+                                                    <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, textAlign: 'center', bgcolor: '#cc7a00' }}>
                                                         {messageDet.author[0]}
                                                     </Avatar>
                                                 </Grid>
@@ -106,7 +106,7 @@ const MuiMessages = ({ socket }) => {
                                                     </Typography>
                                                 </Grid>
                                                 <Grid item>
-                                                    <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, bgcolor: '#00802b' }}>
+                                                    <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, textCenter: 'center', bgcolor: '#00802b' }}>
                                                         {messageDet.author[0]}
                                                     </Avatar>
                                                 </Grid>

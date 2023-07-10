@@ -9,7 +9,9 @@ export default function CreateAuthContext({children}){
     const [users, setUsers] = useState([]);
 
     const updateMessages=(newMessage)=>{
-        setMessages([...messages, newMessage]);
+        if(newMessage){
+            setMessages([...messages, newMessage]);
+        }
     };
 
     return(
