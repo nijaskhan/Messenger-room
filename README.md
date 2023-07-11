@@ -1,13 +1,13 @@
-# Messenger Rooms
+# Messenger Room
 
-Messenger Rooms is a real-time messaging application that allows users to chat in their specific rooms or with friends as a group. The application utilizes Socket.IO for real-time messaging, ensuring a smooth and seamless messaging experience. You can access and experience the Messenger Rooms application [here](https://messenger-room-xi.vercel.app/).
+Messenger Room is a real-time messaging application that allows users to chat in their specific rooms or with friends as a group. The application utilizes Socket.IO for real-time messaging, ensuring a smooth and seamless messaging experience. You can access and experience the Messenger Rooms application [here](https://messenger-room-xi.vercel.app/).
 
- <h2> Open a web browser and access the Messenger Rooms application at <h1> https://messenger-room-xi.vercel.app </h1> </h2>
+ <h2> Open a web browser and access the Messenger Room application at <h1> https://messenger-room-xi.vercel.app </h1> </h2>
 <br/>
 
 ## Technologies Used
 
-The Messenger Rooms application is built using the following technologies:
+The Messenger Room application is built using the following technologies:
 
 - ReactJS: A JavaScript library for building user interfaces.
 - Node.js: A JavaScript runtime environment.
