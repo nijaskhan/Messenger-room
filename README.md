@@ -1,8 +1,8 @@
 # Messenger Rooms
 
-Messenger Rooms is a real-time messaging application that allows users to chat in their specific rooms or with friends as a group. The application utilizes Socket.IO for real-time messaging, ensuring a smooth and seamless messaging experience. You can access and experience the Messenger Rooms application [here](https://messenger-room-git-master-nijaskhan.vercel.app/).
+Messenger Rooms is a real-time messaging application that allows users to chat in their specific rooms or with friends as a group. The application utilizes Socket.IO for real-time messaging, ensuring a smooth and seamless messaging experience. You can access and experience the Messenger Rooms application [here](https://messenger-room-xi.vercel.app/).
 
- <h2> Open a web browser and access the Messenger Rooms application at <h1> https://messenger-room-git-master-nijaskhan.vercel.app </h1> </h2>
+ <h2> Open a web browser and access the Messenger Rooms application at <h1> https://messenger-room-xi.vercel.app </h1> </h2>
 <br/>
 
 ## Technologies Used
