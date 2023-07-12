@@ -67,7 +67,7 @@ const MuiMessages = ({ socket }) => {
                         width: '100%'
                     }}>
                         {/* author messages */}
-                        {messages.length!==0||null ? (
+                        {messages?.length!==0||null ? (
                             messages.map((messageDet) => {
                                 return (
                                     <React.Fragment key={messageDet.key}>
