@@ -67,7 +67,7 @@ const MuiMessages = ({ socket }) => {
                         width: '100%'
                     }}>
                         {/* author messages */}
-                        {messages!==undefined||null ? (
+                        {messages.length!==0||null ? (
                             messages.map((messageDet) => {
                                 return (
                                     <React.Fragment key={messageDet.key}>
@@ -80,7 +80,7 @@ const MuiMessages = ({ socket }) => {
                                                 </Grid>
                                                 <Grid item sx={{
                                                     display: 'flex',
-                                                    maxWidth: '70%',
+                                                    maxWidth: '65%',
                                                     flexDirection: 'column',
                                                 }}>
                                                     <Typography variant="body2" color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#737373', borderRadius: '1.5rem', padding: '0.5rem', textAlign: 'center' }}>
@@ -95,7 +95,7 @@ const MuiMessages = ({ socket }) => {
                                             <Grid container columnGap={1} pb={0.5} px={0.5}>
                                                 <Grid item ml="auto" sx={{
                                                     display: 'flex',
-                                                    maxWidth: '70%',
+                                                    maxWidth: '65%',
                                                     flexDirection: 'column',
                                                 }}>
                                                     <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#47476b', borderRadius: '1.5rem', padding: '0.5rem', textAlign: 'center' }}>
