@@ -54,6 +54,11 @@ io.on('connection', (socket) => {
         socket.to(messageData.roomCode).emit("receiveMessage", messageData);
     });
 
+    socket.on('logout', ({roomCode, username})=>{
+        console.log(roomCode, username, "logged out !!!");
+        socket.to(roomCode).emit("loggedOut", username);
+    });
+
     socket.on('disconnect', () => {
         console.log('socket disconnected');
     });

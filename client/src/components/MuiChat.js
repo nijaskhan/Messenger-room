@@ -24,6 +24,7 @@ const MuiChat = ({ socket }) => {
         setChecked(event.target.checked);
     }
     const handleLogout = () => {
+        socket.emit('logout', {roomCode, username});
         sessionStorage.removeItem('username');
         sessionStorage.removeItem('roomCode');
         setRoomCode('');
@@ -36,7 +37,6 @@ const MuiChat = ({ socket }) => {
         if (!sessionStorage.getItem('username')) {
             navigate('/');
         } else if (sessionStorage.getItem('username') && sessionStorage.getItem('roomCode')) {
-            console.log('worked', roomCode);
             setUsername(sessionStorage.getItem('username'));
             setRoomCode(sessionStorage.getItem('roomCode'));
             getMessages(sessionStorage.getItem('roomCode')).then((response) => {
@@ -45,6 +45,10 @@ const MuiChat = ({ socket }) => {
         } else {
             navigate('/');
         }
+        socket.on('loggedOut', (username)=>{
+            toast.success(`${username} Left room`);
+            console.log("logged out");
+        });
         socket.emit('join_room', { roomCode, username, login: false });
         // eslint-disable-next-line
     }, []);
@@ -219,7 +223,7 @@ const MuiChat = ({ socket }) => {
             </Box>
             <ToastContainer
                 position="top-center"
-                autoClose={1000}
+                autoClose={800}
                 limit={1}
                 hideProgressBar={true}
                 closeOnClick={false}
