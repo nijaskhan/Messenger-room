@@ -17,8 +17,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
         // origin: 'http://localhost:3000',
-        // origin: 'https://messenger-room-xi.vercel.app',
-        origin: 'https://messenger-room-nijaskhan.vercel.app',
+        origin: 'https://messenger-room-xi.vercel.app',
         methods: ['GET', 'POST']
     }
 });
