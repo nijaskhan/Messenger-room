@@ -4,6 +4,10 @@ import React, { useContext, useEffect, useRef } from 'react';
 import Lottie from 'react-lottie';
 import * as animationData from '../animations/say_hi_Robo.json';
 import { AuthContext } from '../store/AuthContext';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { getMessages } from '../apiCalls';
+
+let page = 0;
 
 const useStyles = makeStyles(() => ({
     scrollbar: {
@@ -21,10 +25,12 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-const MuiMessages = ({ socket }) => {
+const MuiMessages = ({ socket, hasMore, setHasMore }) => {
     const classes = useStyles();
-    const { messages, updateMessages, username } = useContext(AuthContext);
+    const { messages, updateMessages, username, setMessages } = useContext(AuthContext);
     const chatContainerRef = useRef(null);
+
+    // const [hasMore, setHasMore]= useState(true);
 
     // lottie-animation configuration
     const defaultOptions = {
@@ -35,6 +41,24 @@ const MuiMessages = ({ socket }) => {
             preserveAspectRatio: 'xMidYMid slice'
         }
     };
+
+    const fetchMessages=()=>{
+        getMessages(sessionStorage.getItem('roomCode'), page).then((response)=>{
+            if(response.messageDatas.messageData.length>0){
+                if(messages){
+                    setMessages([...messages, ...response.messageDatas.messageData]);
+                    page++;
+                }else{
+                    setMessages(response.messageDatas.messageData[0]);
+                }
+            }else{
+                setHasMore(false);
+            }
+        })
+        .catch((error)=>{
+            console.log(error.message);
+        });
+    }
 
     const scrollToBottom = () => {
         if (chatContainerRef.current) {
@@ -56,6 +80,7 @@ const MuiMessages = ({ socket }) => {
     return (
         <>
             <Box display="flex" flexDirection="column">
+
                 <Box display="flex" >
                     {/* message container */}
                     <Box ml={1} ref={chatContainerRef} className={classes.scrollbar} sx={{
@@ -66,66 +91,73 @@ const MuiMessages = ({ socket }) => {
                         height: { lg: '61vh', md: '61vh', sm: '72vh', xs: '72vh' },
                         width: '100%'
                     }}>
-                        {/* author messages */}
-                        {messages?.length!==0||null ? (
-                            messages.map((messageDet) => {
-                                return (
-                                    <React.Fragment key={messageDet.key}>
-                                        {messageDet.author !== username ? (
-                                            <Grid container columnGap={1} pb={0.5}>
-                                                <Grid item>
-                                                    <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, textAlign: 'center', bgcolor: '#cc7a00' }}>
-                                                        {messageDet.author[0]}
-                                                    </Avatar>
+                        <InfiniteScroll
+                            dataLength={messages.length}
+                            next={fetchMessages(page)}
+                            hasMore={hasMore}
+                            loader={<h4 style={{color: 'red'}} >Loading ...</h4>}
+                        >
+                            {/* author messages */}
+                            {messages?.length !== 0 || null ? (
+                                messages.map((messageDet) => {
+                                    return (
+                                        <React.Fragment key={messageDet.key}>
+                                            {messageDet.author !== username ? (
+                                                <Grid container columnGap={1} pb={0.5}>
+                                                    <Grid item>
+                                                        <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, textAlign: 'center', bgcolor: '#cc7a00' }}>
+                                                            {messageDet.author[0]}
+                                                        </Avatar>
+                                                    </Grid>
+                                                    <Grid item sx={{
+                                                        display: 'flex',
+                                                        maxWidth: '65%',
+                                                        flexDirection: 'column',
+                                                    }}>
+                                                        <Typography variant="body2" color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#737373', borderRadius: '1.5rem', padding: '0.5rem', textAlign: 'center' }}>
+                                                            {messageDet.message}
+                                                        </Typography>
+                                                        <Typography variant="caption" gutterBottom sx={{ marginTop: '0.2em', fontSize: '0.5em', display: 'block' }}>
+                                                            {messageDet.time} * {messageDet.author}
+                                                        </Typography>
+                                                    </Grid>
                                                 </Grid>
-                                                <Grid item sx={{
-                                                    display: 'flex',
-                                                    maxWidth: '65%',
-                                                    flexDirection: 'column',
-                                                }}>
-                                                    <Typography variant="body2" color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#737373', borderRadius: '1.5rem', padding: '0.5rem', textAlign: 'center' }}>
-                                                        {messageDet.message}
-                                                    </Typography>
-                                                    <Typography variant="caption" gutterBottom sx={{ marginTop: '0.2em', fontSize: '0.5em', display: 'block' }}>
-                                                        {messageDet.time} * {messageDet.author}
-                                                    </Typography>
+                                            ) : (
+                                                <Grid container columnGap={1} pb={0.5} px={0.5}>
+                                                    <Grid item ml="auto" sx={{
+                                                        display: 'flex',
+                                                        maxWidth: '65%',
+                                                        flexDirection: 'column',
+                                                    }}>
+                                                        <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#47476b', borderRadius: '1.5rem', padding: '0.5rem', textAlign: 'center' }}>
+                                                            {messageDet.message}
+                                                        </Typography>
+                                                        <Typography variant="caption" gutterBottom sx={{ marginTop: '0.2em', fontSize: '0.5em', display: 'block' }}>
+                                                            {messageDet.time} * {messageDet.author}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, textCenter: 'center', bgcolor: '#00802b' }}>
+                                                            {messageDet.author[0]}
+                                                        </Avatar>
+                                                    </Grid>
                                                 </Grid>
-                                            </Grid>
-                                        ) : (
-                                            <Grid container columnGap={1} pb={0.5} px={0.5}>
-                                                <Grid item ml="auto" sx={{
-                                                    display: 'flex',
-                                                    maxWidth: '65%',
-                                                    flexDirection: 'column',
-                                                }}>
-                                                    <Typography variant="body2" gutterBottom color="white" sx={{ wordWrap: 'break-word', backgroundColor: '#47476b', borderRadius: '1.5rem', padding: '0.5rem', textAlign: 'center' }}>
-                                                        {messageDet.message}
-                                                    </Typography>
-                                                    <Typography variant="caption" gutterBottom sx={{ marginTop: '0.2em', fontSize: '0.5em', display: 'block' }}>
-                                                        {messageDet.time} * {messageDet.author}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item>
-                                                    <Avatar variant="circle" alt="proPic" sx={{ width: 35, height: 35, textCenter: 'center', bgcolor: '#00802b' }}>
-                                                        {messageDet.author[0]}
-                                                    </Avatar>
-                                                </Grid>
-                                            </Grid>
-                                        )}
-                                    </React.Fragment>
-                                )
-                            })
-                        ) : (
-                            <>
-                                <Lottie options={defaultOptions}
-                                    height={360}
-                                    width={300}
-                                />
-                            </>
-                        )}
+                                            )}
+                                        </React.Fragment>
+                                    )
+                                })
+                            ) : (
+                                <>
+                                    <Lottie options={defaultOptions}
+                                        height={360}
+                                        width={300}
+                                    />
+                                </>
+                            )}
+                        </InfiniteScroll>
                     </Box>
                 </Box>
-            </Box>
+            </Box >
         </>
     )
 }

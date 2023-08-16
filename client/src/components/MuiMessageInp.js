@@ -20,7 +20,7 @@ const CustomTextField = withStyles({
     },
 })(TextField);
 
-const MuiMessageInp = ({ socket }) => {
+const MuiMessageInp = ({ socket, hasMore }) => {
     const [message, setMessage] = useState("");
     const { username, roomCode, updateMessages } = useContext(AuthContext);
     const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -45,8 +45,9 @@ const MuiMessageInp = ({ socket }) => {
             <Box>
                 <CustomTextField
                     fullWidth
-                    placeholder='Message...'
+                    placeholder={hasMore ? "Loading Messages..." : "Message..."}
                     value={message}
+                    disabled={hasMore}
                     onChange={(e) => setMessage(e.target.value)}
                     color='black'
                     onKeyUp={(e) => {

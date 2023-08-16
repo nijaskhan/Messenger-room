@@ -18,6 +18,8 @@ const MuiChat = ({ socket }) => {
     const [isDrawerOpen, setDrawerOpen] = useState(false);
     const { roomCode, setRoomCode, setUsername, username, setMessages, users, setUsers } = useContext(AuthContext);
 
+    const [hasMore, setHasMore]= useState(true);
+
     const handleSaveRoom = (event) => {
         // console.log("dark mode : ", event.target.checked);
         if (event.target.checked) toast.success('Room saved');
@@ -39,8 +41,8 @@ const MuiChat = ({ socket }) => {
         } else if (sessionStorage.getItem('username') && sessionStorage.getItem('roomCode')) {
             setUsername(sessionStorage.getItem('username'));
             setRoomCode(sessionStorage.getItem('roomCode'));
-            getMessages(sessionStorage.getItem('roomCode')).then((response) => {
-                if (response?.messageDatas?.length !== 0) setMessages(response.messageDatas[0]?.messageData);
+            getMessages(sessionStorage.getItem('roomCode'), 0).then((response) => {
+                if (response?.messageDatas?.messageData) setMessages(response.messageDatas?.messageData);
             });
         } else {
             navigate('/');
@@ -200,11 +202,11 @@ const MuiChat = ({ socket }) => {
                             justifyContent: 'space-between',
                             display: { sm: 'none', xs: 'none', md: 'block', lg: 'block' }
                         }}>
-                            <MuiMessages socket={socket} />
+                            <MuiMessages socket={socket} hasMore={hasMore} setHasMore={setHasMore} />
                             <Box maxWidth={{ lg: '89%', md: '89%' }} pt={{ lg: 2, md: 2 }} justifyContent={'center'} sx={{
                                 paddingLeft: { lg: '2em', md: '2em' }
                             }}>
-                                <MuiMessageInp socket={socket} />
+                                <MuiMessageInp socket={socket} hasMore={hasMore} />
                             </Box>
                         </Grid>
                     </Grid>
@@ -213,10 +215,10 @@ const MuiChat = ({ socket }) => {
                         display: { lg: 'none', md: 'none' }
                     }}>
                         <Box height={{ xl: '96%', lg: '96%', md: '95%', sm: '91%', xs: '91%' }} >
-                            <MuiMessages socket={socket} />
+                            <MuiMessages socket={socket} hasMore={hasMore} setHasMore={setHasMore} />
                         </Box>
                         <Box maxWidth={{ lg: '90%', md: '90%', sx: '95%', xs: '95%' }} pt={{ sm: 1, xs: 1 }} pb={2}>
-                            <MuiMessageInp socket={socket} />
+                            <MuiMessageInp socket={socket} hasMore={hasMore} />
                         </Box>
                     </Grid>
                 </Grid>
