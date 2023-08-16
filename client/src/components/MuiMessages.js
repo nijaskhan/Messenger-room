@@ -43,21 +43,23 @@ const MuiMessages = ({ socket, hasMore, setHasMore }) => {
     };
 
     const fetchMessages=()=>{
-        getMessages(sessionStorage.getItem('roomCode'), page).then((response)=>{
-            if(response.messageDatas.messageData.length>0){
-                if(messages){
-                    setMessages([...messages, ...response.messageDatas.messageData]);
-                    page++;
+        if(hasMore) {
+            getMessages(sessionStorage.getItem('roomCode'), page).then((response)=>{
+                if(response.messageDatas.messageData.length>0){
+                    if(messages){
+                        setMessages([...messages, ...response.messageDatas.messageData]);
+                        page++;
+                    }else{
+                        setMessages(response.messageDatas.messageData[0]);
+                    }
                 }else{
-                    setMessages(response.messageDatas.messageData[0]);
+                    setHasMore(false);
                 }
-            }else{
-                setHasMore(false);
-            }
-        })
-        .catch((error)=>{
-            console.log(error.message);
-        });
+            })
+            .catch((error)=>{
+                console.log(error.message);
+            });
+        }
     }
 
     const scrollToBottom = () => {
