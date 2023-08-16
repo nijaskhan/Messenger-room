@@ -95,7 +95,6 @@ const MuiMessages = ({ socket, hasMore, setHasMore }) => {
                             dataLength={messages.length}
                             next={fetchMessages(page)}
                             hasMore={hasMore}
-                            loader={<h4 style={{color: 'red'}} >Loading ...</h4>}
                         >
                             {/* author messages */}
                             {messages?.length !== 0 || null ? (
