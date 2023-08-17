@@ -45,7 +45,7 @@ const MuiMessages = ({ socket, hasMore, setHasMore }) => {
     const fetchMessages=()=>{
         if(hasMore) {
             getMessages(sessionStorage.getItem('roomCode'), page).then((response)=>{
-                if(response.messageDatas.messageData.length>0){
+                if(response?.messageDatas?.messageData.length>0){
                     if(messages){
                         setMessages([...messages, ...response.messageDatas.messageData]);
                         page++;

@@ -18,7 +18,7 @@ const MuiChat = ({ socket }) => {
     const [isDrawerOpen, setDrawerOpen] = useState(false);
     const { roomCode, setRoomCode, setUsername, username, setMessages, users, setUsers } = useContext(AuthContext);
 
-    const [hasMore, setHasMore]= useState(true);
+    const [hasMore, setHasMore] = useState(true);
 
     const handleSaveRoom = (event) => {
         // console.log("dark mode : ", event.target.checked);
@@ -26,7 +26,7 @@ const MuiChat = ({ socket }) => {
         setChecked(event.target.checked);
     }
     const handleLogout = () => {
-        socket.emit('logout', {roomCode, username});
+        socket.emit('logout', { roomCode, username });
         sessionStorage.removeItem('username');
         sessionStorage.removeItem('roomCode');
         setRoomCode('');
@@ -35,6 +35,25 @@ const MuiChat = ({ socket }) => {
         window.location.reload();
     }
 
+    // useEffect(() => {
+    //     if (!sessionStorage.getItem('username')) {
+    //         navigate('/');
+    //     } else if (sessionStorage.getItem('username') && sessionStorage.getItem('roomCode')) {
+    //         setUsername(sessionStorage.getItem('username'));
+    //         setRoomCode(sessionStorage.getItem('roomCode'));
+    //         getMessages(sessionStorage.getItem('roomCode'), 0).then((response) => {
+    //             if (response?.messageDatas?.messageData) setMessages(response.messageDatas?.messageData);
+    //         });
+    //     } else {
+    //         navigate('/');
+    //     }
+    //     socket.on('loggedOut', (username)=>{
+    //         toast.success(`${username} Left room`);
+    //         console.log("logged out");
+    //     });
+    //     socket.emit('join_room', { roomCode, username, login: false });
+    //     // eslint-disable-next-line
+    // }, []);
     useEffect(() => {
         if (!sessionStorage.getItem('username')) {
             navigate('/');
@@ -47,13 +66,23 @@ const MuiChat = ({ socket }) => {
         } else {
             navigate('/');
         }
-        socket.on('loggedOut', (username)=>{
-            toast.success(`${username} Left room`);
-            console.log("logged out");
-        });
-        socket.emit('join_room', { roomCode, username, login: false });
         // eslint-disable-next-line
     }, []);
+
+    useEffect(() => {
+        const handleLoggedOut = (username) => {
+            toast.success(`${username} Left room`);
+            console.log("logged out");
+        };
+
+        socket.on('loggedOut', handleLoggedOut);
+        socket.emit('join_room', { roomCode, username, login: false });
+
+        return () => {
+            socket.off('loggedOut', handleLoggedOut);
+        };
+        // eslint-disable-next-line
+    }, [roomCode, username]);
 
     useEffect(() => {
         if (username) {
